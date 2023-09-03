@@ -1,0 +1,9 @@
+# Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
+v: 0
+icon: ./icon.png
+micros:
+  - name: mkapp-deta
+    src: .
+    engine: next
+    primary: true
+    dev: npm run dev
