@@ -7,3 +7,7 @@ micros:
     engine: next
     primary: true
     dev: npm run dev
+    presets:
+      env:
+        - name: DETA_PROJECT_KEY
+          description: API key for Deta SDK
