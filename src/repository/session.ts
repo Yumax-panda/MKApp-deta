@@ -19,9 +19,9 @@ export class SessionRepository {
     const session = await this.db.put({ userId }, sessionToken, {
       expireAt: expires,
     });
-    if (!session) {
-      throw new Error("Session not created");
-    }
+
+    if (!session) throw new Error("Session not created");
+
     return {
       sessionToken: session.sessionToken as string,
       userId: session.userId as string,
@@ -58,7 +58,12 @@ export class SessionRepository {
     };
   }
 
-  async delete(sessionToken: string): Promise<void> {
-    await this.db.delete(sessionToken);
+  async delete(sessionToken: string): Promise<Session> {
+    const toDelete = await this.get(sessionToken);
+    if (toDelete) {
+      await this.db.delete(sessionToken);
+      return toDelete;
+    }
+    throw new Error("Session not found");
   }
 }

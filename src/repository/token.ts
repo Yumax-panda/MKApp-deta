@@ -9,7 +9,7 @@ interface BaseToken {
 
 interface CreateProps {
   userId: string;
-  accessToken: string;
+  accessToken?: string | null;
   options?: {
     expireAt?: Date | number;
     exprireIn?: number;

@@ -26,7 +26,7 @@ export class UserRepository {
   }
 
   async create(data: Omit<BaseUser, "key">): Promise<BaseUser> {
-    const user = await this.db.put({ data });
+    const user = await this.db.put(data);
     if (!user) {
       throw new Error("User not created");
     }

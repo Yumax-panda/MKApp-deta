@@ -1,5 +1,5 @@
 import { DetaAdapter } from "@/adapter/deta";
-import { DetaClient } from "@/deta/deta";
+import { DetaClient } from "@/repository/deta";
 import NextAuth from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
@@ -8,6 +8,11 @@ const handler = NextAuth({
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID as string,
       clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          scope: "identify email guilds",
+        },
+      },
     }),
   ],
   adapter: DetaAdapter(DetaClient),
@@ -18,7 +23,7 @@ const handler = NextAuth({
   },
   useSecureCookies: process.env.NODE_ENV === "production",
   callbacks: {
-    async redirect({ url, baseUrl }) {
+    async redirect({ url }) {
       return url;
     },
     async session({ session, user }) {

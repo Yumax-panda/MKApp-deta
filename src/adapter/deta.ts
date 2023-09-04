@@ -1,6 +1,7 @@
-import type { DetaClientType } from "@/deta/deta";
+import type { DetaClientType } from "@/repository/deta";
 import type { Adapter } from "next-auth/adapters";
-import type { UpdateProps as UserUpdate } from "@/deta/user";
+import type { UpdateProps as UserUpdate } from "@/repository/user";
+import { throws } from "assert";
 
 export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
   return {
@@ -60,33 +61,25 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       };
     },
     async linkAccount(account) {
-      const user = await d.user.getByDiscordId(account.providerAccountId);
-      if (!user) {
-        return null;
-      }
+      const user = await d.user.get(account.userId);
+
+      if (!user) throw new Error("User not found");
 
       let updates: UserUpdate = { discordId: account.providerAccountId };
       const { access_token, refresh_token, expires_at } = account;
-
-      const tasks: Promise<unknown>[] = [];
 
       if (refresh_token) {
         updates = { ...updates, refreshToken: refresh_token };
       }
 
-      tasks.push(d.user.update(user.key, updates));
-
-      if (access_token && expires_at) {
-        tasks.push(
-          d.token.create({
-            userId: user.key,
-            accessToken: access_token,
-            options: { expireAt: expires_at },
-          }),
-        );
-      }
-
-      await Promise.all(tasks);
+      await Promise.all([
+        d.user.update(user.key, updates),
+        d.token.create({
+          userId: user.key,
+          accessToken: access_token,
+          options: { expireAt: expires_at },
+        }),
+      ]);
       return account;
     },
     async createSession({ sessionToken, userId, expires }) {
@@ -99,9 +92,10 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
     },
     async getSessionAndUser(sessionToken) {
       const session = await d.session.get(sessionToken);
-      if (!session) return null;
+      if (!session)
+        throw new Error("Session not found on getSessionAndUser called");
       const user = await d.user.get(session.userId);
-      if (!user) return null;
+      if (!user) throw new Error("User not found on getSessionAndUser called");
       return {
         session,
         user: {
@@ -118,7 +112,7 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       return await d.session.update(session);
     },
     async deleteSession(sessionToken) {
-      await d.session.delete(sessionToken);
+      return await d.session.delete(sessionToken);
     },
     async updateUser(user) {
       const { id, emailVerified, ...updates } = user;
