@@ -1,20 +1,20 @@
 import type DetaClass from "deta/dist/types/deta";
 import type BaseClass from "deta/dist/types/base";
 
-type BaseToken = {
+interface BaseToken {
   userId: string;
   accessToken: string;
   expires: Date;
-};
+}
 
-type CreateProps = {
+interface CreateProps {
   userId: string;
   accessToken: string;
   options?: {
     expireAt?: Date | number;
     exprireIn?: number;
   };
-};
+}
 
 export class TokenRepository {
   private readonly db: BaseClass;

@@ -89,5 +89,12 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       await Promise.all(tasks);
       return account;
     },
+    async createSession({ sessionToken, userId, expires }) {
+      return {
+        sessionToken,
+        userId,
+        expires,
+      };
+    },
   };
 }
