@@ -1,7 +1,6 @@
 import type { DetaClientType } from "@/repository/deta";
 import type { Adapter } from "next-auth/adapters";
 import type { UpdateProps as UserUpdate } from "@/repository/user";
-import { throws } from "assert";
 
 export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
   return {
@@ -48,9 +47,7 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       const user = await d.user.getByDiscordId(
         providerAccountId.providerAccountId,
       );
-      if (!user) {
-        return null;
-      }
+      if (!user) throw new Error("User not found on getUserByAccount called");
       return {
         id: user.key,
         discordId: user.discordId,
@@ -63,7 +60,7 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
     async linkAccount(account) {
       const user = await d.user.get(account.userId);
 
-      if (!user) throw new Error("User not found");
+      if (!user) throw new Error("User not found on linkAccount called");
 
       let updates: UserUpdate = { discordId: account.providerAccountId };
       const { access_token, refresh_token, expires_at } = account;
@@ -118,7 +115,7 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       const { id, emailVerified, ...updates } = user;
       const newUser = await d.user.update(id, updates);
       if (!newUser) {
-        throw new Error("User not updated");
+        throw new Error("User not updated on updateUser called");
       }
       return {
         id: newUser.key,
