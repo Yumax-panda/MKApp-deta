@@ -68,7 +68,7 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       let updates: UserUpdate = { discordId: account.providerAccountId };
       const { access_token, refresh_token, expires_at } = account;
 
-      const tasks: Promise<void>[] = [];
+      const tasks: Promise<unknown>[] = [];
 
       if (refresh_token) {
         updates = { ...updates, refreshToken: refresh_token };
@@ -90,10 +90,49 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       return account;
     },
     async createSession({ sessionToken, userId, expires }) {
-      return {
+      const session = await d.session.create({
         sessionToken,
         userId,
         expires,
+      });
+      return session;
+    },
+    async getSessionAndUser(sessionToken) {
+      const session = await d.session.get(sessionToken);
+      if (!session) return null;
+      const user = await d.user.get(session.userId);
+      if (!user) return null;
+      return {
+        session,
+        user: {
+          id: user.key,
+          discordId: user.discordId,
+          name: user.name,
+          image: user.image,
+          email: user.email,
+          emailVerified: null,
+        },
+      };
+    },
+    async updateSession(session) {
+      return await d.session.update(session);
+    },
+    async deleteSession(sessionToken) {
+      await d.session.delete(sessionToken);
+    },
+    async updateUser(user) {
+      const { id, emailVerified, ...updates } = user;
+      const newUser = await d.user.update(id, updates);
+      if (!newUser) {
+        throw new Error("User not updated");
+      }
+      return {
+        id: newUser.key,
+        discordId: newUser.discordId,
+        name: newUser.name,
+        image: newUser.image,
+        email: newUser.email,
+        emailVerified: null,
       };
     },
   };

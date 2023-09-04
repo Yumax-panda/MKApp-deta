@@ -60,7 +60,8 @@ export class UserRepository {
     return null;
   }
 
-  async update(key: string, updates: UpdateProps): Promise<void> {
+  async update(key: string, updates: UpdateProps): Promise<BaseUser | null> {
     await this.db.update(updates, key);
+    return await this.get(key);
   }
 }
