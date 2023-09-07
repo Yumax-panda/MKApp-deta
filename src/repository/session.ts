@@ -58,12 +58,14 @@ export class SessionRepository {
     };
   }
 
-  async delete(sessionToken: string): Promise<Session> {
+  async delete(sessionToken: string): Promise<Session | null> {
     const toDelete = await this.get(sessionToken);
     if (toDelete) {
       await this.db.delete(sessionToken);
       return toDelete;
+    } else {
+      console.log("Session not found on delete called");
+      return null;
     }
-    throw new Error("Session not found");
   }
 }

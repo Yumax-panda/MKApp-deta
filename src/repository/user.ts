@@ -8,6 +8,7 @@ export interface BaseUser {
   image?: string | null;
   email: string;
   refreshToken?: string | null;
+  emailVerified: Date | null;
 }
 
 export type DiscordUser = BaseUser & {
@@ -26,14 +27,17 @@ export class UserRepository {
   }
 
   async create(data: Omit<BaseUser, "key">): Promise<BaseUser> {
-    const user = await this.db.put(data);
+    const { emailVerified, ...rest } = data;
+    const payload: any = rest;
+    if (emailVerified) {
+      payload.emailVerified = emailVerified.toISOString();
+    }
+
+    const user = await this.db.put(payload);
     if (!user) {
       throw new Error("User not created");
     }
-    return {
-      key: String(user.key) || "",
-      ...data,
-    };
+    return UserRepository.parse(user);
   }
 
   async get(key: string): Promise<BaseUser | null> {
@@ -41,7 +45,7 @@ export class UserRepository {
     if (!user) {
       return null;
     }
-    return user as unknown as BaseUser;
+    return UserRepository.parse(user);
   }
 
   async getByDiscordId(discordId: string): Promise<DiscordUser | null> {
@@ -61,7 +65,29 @@ export class UserRepository {
   }
 
   async update(key: string, updates: UpdateProps): Promise<BaseUser | null> {
-    await this.db.update(updates, key);
-    return await this.get(key);
+    const { emailVerified, ...rest } = updates;
+    const payload: any = rest;
+    if (emailVerified) {
+      payload.emailVerified = emailVerified.toISOString();
+    }
+    await this.db.update(payload, key);
+    const user = await this.get(key);
+    if (!user) {
+      console.log("User not found on update called");
+      return null;
+    }
+    return UserRepository.parse(user);
+  }
+
+  static parse(data: any): BaseUser {
+    return {
+      key: data.key as string,
+      discordId: data?.discordId || null,
+      name: data?.name || null,
+      image: data?.image || null,
+      email: data.email,
+      refreshToken: data?.refreshToken || null,
+      emailVerified: data.emailVerified ? new Date(data.emailVerified) : null,
+    };
   }
 }
