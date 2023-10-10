@@ -1,94 +1,46 @@
-import type DetaClass from "deta/dist/types/deta";
-import type BaseClass from "deta/dist/types/base";
-
-export interface BaseUser {
-  key: string;
-  discordId?: string | null;
-  name?: string | null;
-  image?: string | null;
-  email: string;
-  refreshToken?: string | null;
-  emailVerified: Date | null;
-}
-
-export type DiscordUser = BaseUser & {
-  name: string;
-  image: string;
-  discordId: string;
-};
-
-export type UpdateProps = Omit<Partial<BaseUser>, "key">;
+import type DetaClass from "deta/dist/types/deta"
+import type BaseClass from "deta/dist/types/base"
+import type { DetaUser, User } from "@/models/user"
+import { format, toPayload } from "@/utils/format"
 
 export class UserRepository {
-  private readonly db: BaseClass;
+  deta: DetaClass
+  db: BaseClass
 
   constructor(deta: DetaClass) {
-    this.db = deta.Base("User");
+    this.deta = deta
+    this.db = deta.Base("User")
   }
 
-  async create(data: Omit<BaseUser, "key">): Promise<BaseUser> {
-    const { emailVerified, ...rest } = data;
-    const payload: any = rest;
-    if (emailVerified) {
-      payload.emailVerified = emailVerified.toISOString();
-    }
-
-    const user = await this.db.put(payload);
-    if (!user) {
-      throw new Error("User not created");
-    }
-    return UserRepository.parse(user);
+  private getKey(user: User | DetaUser): string {
+    return user.id
   }
 
-  async get(key: string): Promise<BaseUser | null> {
-    const user = await this.db.get(key);
-    if (!user) {
-      return null;
-    }
-    return UserRepository.parse(user);
+  async create<T extends User>(user: Omit<T, "id">): Promise<T> {
+    const id = crypto.randomUUID()
+    const payload = { ...toPayload(user), id }
+    await this.db.put(payload, id)
+    return { ...payload, id } as unknown as T
   }
 
-  async getByDiscordId(discordId: string): Promise<DiscordUser | null> {
-    const { items: users } = await this.db.fetch({ discordId });
-    console.log("getByDiscordId called", users);
-    if (users.length) {
-      return users[0] as unknown as DiscordUser;
-    }
-    return null;
+  async getById(id: string): Promise<User | null> {
+    const user = await this.db.get(id)
+    if (!user) return null
+    const { key, ...rest } = user
+    return format<User>(rest)
   }
 
-  async getByEmail(email: string): Promise<BaseUser | null> {
-    const { items: users } = await this.db.fetch({ email });
-    if (users.length) {
-      return users[0] as unknown as BaseUser;
-    }
-    return null;
+  async getByEmail(email: string): Promise<User | null> {
+    const { items } = await this.db.fetch({ email })
+    if (!items.length) return null
+    const { key, ...rest } = items[0]
+    return format<User>(rest)
   }
 
-  async update(key: string, updates: UpdateProps): Promise<BaseUser | null> {
-    const { emailVerified, ...rest } = updates;
-    const payload: any = rest;
-    if (emailVerified) {
-      payload.emailVerified = emailVerified.toISOString();
-    }
-    await this.db.update(payload, key);
-    const user = await this.get(key);
-    if (!user) {
-      console.log("User not found on update called");
-      return null;
-    }
-    return UserRepository.parse(user);
-  }
-
-  static parse(data: any): BaseUser {
-    return {
-      key: data.key as string,
-      discordId: data?.discordId || null,
-      name: data?.name || null,
-      image: data?.image || null,
-      email: data.email,
-      refreshToken: data?.refreshToken || null,
-      emailVerified: data.emailVerified ? new Date(data.emailVerified) : null,
-    };
+  async update(data: Partial<User> & Pick<User, "id">): Promise<User> {
+    const user = await this.getById(data.id)
+    if (!user) throw new Error("User not found")
+    await this.db.update(toPayload(data), data.id)
+    return { ...user, ...data }
   }
 }

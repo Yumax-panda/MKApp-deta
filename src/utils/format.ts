@@ -1,5 +1,5 @@
 type DetaPayload = {
-  [key: string]: number | string | DetaPayload[] | null
+  [key: string]: number | string | DetaPayload[] | null | undefined
 }
 
 function isDate(date: any) {
@@ -10,10 +10,6 @@ function isDate(date: any) {
 
 export function format<T>(obj: Record<string, any>): T {
   for (const [key, value] of Object.entries(obj)) {
-    if (value === null) {
-      delete obj[key]
-    }
-
     if (isDate(value)) {
       obj[key] = new Date(value)
     }
