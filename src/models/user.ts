@@ -11,6 +11,6 @@ export type DetaUser = {
 
 export type User = {
   emailVerified?: Date
-  accounts: Account[]
-  sessions: Session[]
+  accounts?: Account[]
+  sessions?: Session[]
 } & Omit<DetaUser, "emailVerified">
