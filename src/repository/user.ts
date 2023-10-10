@@ -2,6 +2,7 @@ import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
 import type { DetaUser, User } from "@/models/user"
 import { format, toPayload } from "@/utils/format"
+import { AccountRepository } from "./account"
 
 export class UserRepository {
   deta: DetaClass
@@ -37,10 +38,19 @@ export class UserRepository {
     return format<User>(rest)
   }
 
-  async update(data: Partial<User> & Pick<User, "id">): Promise<User> {
+  async update(data: User): Promise<User> {
     const user = await this.getById(data.id)
     if (!user) throw new Error("User not found")
     await this.db.update(toPayload(data), data.id)
     return { ...user, ...data }
+  }
+
+  async delete(id: string): Promise<User | null> {
+    const user = await this.getById(id)
+    if (!user) return null
+    const accountRepo = new AccountRepository(this.deta)
+    await accountRepo.deleteAll(id)
+    await this.db.delete(id)
+    return user
   }
 }
