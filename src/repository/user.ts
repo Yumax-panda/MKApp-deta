@@ -50,6 +50,7 @@ export class UserRepository {
 
   async getByDiscordId(discordId: string): Promise<DiscordUser | null> {
     const { items: users } = await this.db.fetch({ discordId });
+    console.log("getByDiscordId called", users);
     if (users.length) {
       return users[0] as unknown as DiscordUser;
     }
