@@ -20,5 +20,16 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
     updateUser: async (user) => {
       return (await d.user.update(user)) as AdapterUser
     },
+    deleteUser: async (userId) => {
+      const user = await d.user.delete(userId)
+
+      if (!user) return
+      await Promise.all([
+        d.account.deleteAll(userId),
+        d.session.deleteAll(userId),
+      ])
+      return
+    },
+    // createSession: async (session) => {},
   }
 }

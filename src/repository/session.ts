@@ -1,71 +1,56 @@
-import type DetaClass from "deta/dist/types/deta";
-import type BaseClass from "deta/dist/types/base";
-
-export interface Session {
-  expires: Date;
-  sessionToken: string;
-  userId: string;
-}
+import type DetaClass from "deta/dist/types/deta"
+import type BaseClass from "deta/dist/types/base"
+import type { GetResponse } from "deta/dist/types/types/base/response"
+import { format, toPayload } from "@/utils"
+import type { DetaSession } from "@/models"
 
 export class SessionRepository {
-  private readonly db: BaseClass;
+  deta: DetaClass
+  db: BaseClass
 
   constructor(deta: DetaClass) {
-    this.db = deta.Base("Session");
+    this.deta = deta
+    this.db = deta.Base("Session")
   }
 
-  async create(data: Session): Promise<Session> {
-    const { sessionToken, userId, expires } = data;
-    const session = await this.db.put({ userId }, sessionToken, {
-      expireAt: expires,
-    });
-
-    if (!session) throw new Error("Session not created");
-
-    return {
-      sessionToken: session.sessionToken as string,
-      userId: session.userId as string,
-      expires: new Date(session.__expires as number),
-    };
+  async get(sessionToken: string): Promise<DetaSession | null> {
+    const session = await this.db.get(sessionToken)
+    return this.parse(session)
   }
 
-  async get(sessionToken: string): Promise<Session | null> {
-    const data = await this.db.get(sessionToken);
-    if (!data) {
-      return null;
-    }
-    return {
-      sessionToken: data.sessionToken as string,
-      userId: data.userId as string,
-      expires: new Date(data.__expires as number),
-    };
+  async create(session: DetaSession): Promise<DetaSession> {
+    await this.db.put(toPayload(session), session.sessionToken, {
+      expireAt: session.expires,
+    })
+    const created = await this.get(session.sessionToken)
+    if (!created) throw new Error("Session not found")
+    return created
   }
 
-  async update(
-    session: Partial<Session> & Pick<Session, "sessionToken">,
-  ): Promise<Session> {
-    const { sessionToken, userId, expires } = session;
-    const updated = await this.db.put({ userId }, sessionToken, {
-      expireAt: expires,
-    });
-    if (!updated) {
-      throw new Error("Session not updated");
-    }
-    return {
-      sessionToken: updated.sessionToken as string,
-      userId: updated.userId as string,
-      expires: new Date(updated.__expires as number),
-    };
+  async getByUserId(userId: string): Promise<DetaSession[]> {
+    const { items } = await this.db.fetch({ userId })
+    return items
+      .map((item) => this.parse(item))
+      .filter(Boolean) as DetaSession[]
   }
 
-  async delete(sessionToken: string): Promise<Session | null> {
-    const toDelete = await this.get(sessionToken);
-    if (toDelete) {
-      await this.db.delete(sessionToken);
-      return toDelete;
-    } else {
-      console.log("Session not found on delete called");
-      return null;
-    }
+  async delete(sessionToken: string): Promise<DetaSession | null> {
+    const session = await this.get(sessionToken)
+    await this.db.delete(sessionToken)
+    return session
+  }
+
+  async deleteAll(userId: string): Promise<DetaSession[]> {
+    const sessions = await this.getByUserId(userId)
+    return (
+      await Promise.all(
+        sessions.map(({ sessionToken }) => this.delete(sessionToken)),
+      )
+    ).filter(Boolean) as DetaSession[]
+  }
+
+  private parse(data: GetResponse): DetaSession | null {
+    if (!data) return null
+    return format<DetaSession>(data)
   }
 }
