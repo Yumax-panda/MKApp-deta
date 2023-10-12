@@ -19,15 +19,13 @@ export class UserRepository {
     this.accountRepo = new AccountRepository(deta)
   }
 
-  private getKey(user: User | DetaUser): string {
-    return user.id
-  }
-
   async create<T extends User>(user: Omit<T, "id">): Promise<T> {
     const id = crypto.randomUUID()
     const payload = { ...toPayload(user), id }
     await this.db.put(payload, id)
-    return { ...payload, id } as unknown as T
+    const created = await this.getById(id)
+    if (!created) throw new Error("User is not created")
+    return created as T
   }
 
   async getById(id: string): Promise<User | null> {
@@ -38,22 +36,22 @@ export class UserRepository {
   async getByEmail(email: string): Promise<User | null> {
     const { items } = await this.db.fetch({ email })
     if (!items.length) return null
-    const { key, ...rest } = items[0]
-    return format<User>(rest)
+    return this.parse(items[0])
   }
 
   async update(data: User): Promise<User> {
     const user = await this.getById(data.id)
     if (!user) throw new Error("User not found")
     await this.db.update(toPayload(data), data.id)
-    return { ...data, ...user }
+    const updated = await this.getById(data.id)
+    if (!updated) throw new Error("User is not updated")
+    return updated
   }
 
   async delete(id: string): Promise<User | null> {
     const user = await this.getById(id)
     if (!user) return null
-    await this.accountRepo.deleteAll(id)
-    await this.db.delete(id)
+    await Promise.all([this.accountRepo.deleteAll(id), this.db.delete(id)])
     return user
   }
 
