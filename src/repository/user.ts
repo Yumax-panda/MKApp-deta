@@ -39,7 +39,7 @@ export class UserRepository {
     return this.parse(items[0])
   }
 
-  async update(data: User): Promise<User> {
+  async update(data: UpdateUser): Promise<User> {
     const user = await this.getById(data.id)
     if (!user) throw new Error("User not found")
     await this.db.update(toPayload(data), data.id)

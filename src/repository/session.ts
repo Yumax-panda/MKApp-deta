@@ -2,8 +2,10 @@ import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
 import type { GetResponse } from "deta/dist/types/types/base/response"
 import { format, toPayload } from "@/utils"
+import type { Update } from "@/utils"
 import type { DetaSession } from "@/models"
 
+type UpdateSession = Update<DetaSession, "sessionToken">
 export class SessionRepository {
   deta: DetaClass
   db: BaseClass
@@ -32,6 +34,16 @@ export class SessionRepository {
     return items
       .map((item) => this.parse(item))
       .filter(Boolean) as DetaSession[]
+  }
+
+  async update(session: UpdateSession): Promise<DetaSession | null> {
+    const { sessionToken } = session
+    const current = await this.get(sessionToken)
+    if (!current) return null
+    await this.db.update(toPayload(session), sessionToken)
+    const updated = await this.get(sessionToken)
+    if (!updated) throw new Error("Failed to fetch updated session")
+    return updated
   }
 
   async delete(sessionToken: string): Promise<DetaSession | null> {

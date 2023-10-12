@@ -1,5 +1,5 @@
 import type { DetaClientType } from "@/repository/deta"
-import type { Adapter, AdapterUser } from "next-auth/adapters"
+import type { Adapter, AdapterUser, AdapterAccount } from "next-auth/adapters"
 
 export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
   return {
@@ -30,6 +30,29 @@ export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
       ])
       return
     },
-    // createSession: async (session) => {},
+    async linkAccount(accountInit) {
+      return (await d.account
+        .create(accountInit)
+        .then((account) => account)) as AdapterAccount
+    },
+    async unlinkAccount({ provider, providerAccountId }) {
+      await d.account.delete({ provider, providerAccountId })
+    },
+    async createSession(sessionInit) {
+      return await d.session.create(sessionInit).then((session) => session)
+    },
+    async getSessionAndUser(sessionToken) {
+      const session = await d.session.get(sessionToken)
+      if (!session) return null
+      const user = (await d.user.getById(session.userId)) as AdapterUser | null
+      if (!user) return null
+      return { session, user }
+    },
+    async updateSession(partialSession) {
+      return await d.session.update(partialSession)
+    },
+    async deleteSession(sessionToken) {
+      await d.session.delete(sessionToken)
+    },
   }
 }
