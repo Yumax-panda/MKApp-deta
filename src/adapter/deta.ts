@@ -1,7 +1,7 @@
 import type { DetaClientType } from "@/repository/deta"
 import type { Adapter, AdapterUser, AdapterAccount } from "next-auth/adapters"
 
-export function DetaAdapter(d: DetaClientType, options = {}): Adapter {
+export function DetaAdapter(d: DetaClientType): Adapter {
   return {
     createUser: async (user) => {
       return await d.user.create(user)

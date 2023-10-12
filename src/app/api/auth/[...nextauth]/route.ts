@@ -1,13 +1,17 @@
-import { DetaAdapter } from "@/adapter/deta";
-import { DetaClient } from "@/repository/deta";
-import NextAuth from "next-auth";
-import DiscordProvider from "next-auth/providers/discord";
+import { DetaAdapter } from "@/adapter/deta"
+import { DetaClient } from "@/repository/deta"
+import NextAuth from "next-auth"
+import DiscordProvider from "next-auth/providers/discord"
+
+const client = new DetaClient(
+  process.env.NEXT_PUBLIC_DETA_PROJECT_KEY as string,
+)
 
 const handler = NextAuth({
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID as string,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+      clientId: process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.NEXT_PUBLIC_DISCORD_CLIENT_SECRET as string,
       authorization: {
         params: {
           scope: "identify email guilds",
@@ -15,7 +19,7 @@ const handler = NextAuth({
       },
     }),
   ],
-  adapter: DetaAdapter(DetaClient),
+  adapter: DetaAdapter(client),
   session: {
     strategy: "database",
     maxAge: 30 * 24 * 60 * 60,
@@ -24,15 +28,15 @@ const handler = NextAuth({
   useSecureCookies: process.env.NODE_ENV === "production",
   callbacks: {
     async redirect({ url }) {
-      return url;
+      return url
     },
     async session({ session, user }) {
       if (session?.user) {
-        session.user = user;
+        session.user = user
       }
-      return session;
+      return session
     },
   },
-});
+})
 
-export { handler as GET, handler as POST };
+export { handler as GET, handler as POST }

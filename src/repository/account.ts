@@ -22,7 +22,6 @@ export class AccountRepository {
     return `${key.provider}___${key.providerAccountId}`
   }
 
-  // TODO: fix parse in order not to keep the type of expires_at
   async create(account: DetaAccount): Promise<DetaAccount> {
     const { provider, providerAccountId, expires_at } = account
     const key = this.getId({ provider, providerAccountId })
@@ -63,7 +62,9 @@ export class AccountRepository {
 
   private parse(data: GetResponse): DetaAccount | null {
     if (!data) return null
-    const { key, ...rest } = data
-    return format<DetaAccount>(rest)
+    const { key, expires_at, __expires, ...rest } = data
+    const account = format<DetaAccount>(rest)
+    account.expires_at = expires_at as number | undefined
+    return account as DetaAccount
   }
 }

@@ -1,18 +1,23 @@
 import { Deta } from "deta"
 import { UserRepository } from "./user"
-import { TokenRepository } from "./token"
 import { SessionRepository } from "./session"
-import { VerificationTokenRepository } from "./verificationToken"
 import { AccountRepository } from "./account"
 
-const deta = Deta()
-
-export const DetaClient = {
-  user: new UserRepository(deta),
-  account: new AccountRepository(deta),
-  token: new TokenRepository(deta),
-  session: new SessionRepository(deta),
-  verificationToken: new VerificationTokenRepository(deta),
+export interface DetaClientType {
+  user: UserRepository
+  session: SessionRepository
+  account: AccountRepository
 }
 
-export type DetaClientType = typeof DetaClient
+export class DetaClient implements DetaClientType {
+  user: UserRepository
+  session: SessionRepository
+  account: AccountRepository
+
+  constructor(projectKey: string) {
+    const deta = Deta(projectKey)
+    this.user = new UserRepository(deta)
+    this.session = new SessionRepository(deta)
+    this.account = new AccountRepository(deta)
+  }
+}
