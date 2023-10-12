@@ -1,7 +1,7 @@
 import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
 import type { GetResponse } from "deta/dist/types/types/base/response"
-import type { Account } from "@/models/account"
+import type { DetaAccount } from "@/models/account"
 import { format } from "@/utils/format"
 
 type Key = {
@@ -22,31 +22,48 @@ export class AccountRepository {
     return `${key.provider}___${key.providerAccountId}`
   }
 
-  private getKey(key: string): Key {
-    const [provider, providerAccountId] = key.split("___")
-    return { provider, providerAccountId }
+  // TODO: fix parse in order not to keep the type of expires_at
+  async create(account: DetaAccount): Promise<DetaAccount> {
+    const { provider, providerAccountId, expires_at } = account
+    const key = this.getId({ provider, providerAccountId })
+    await this.db.put(account, key, { expireAt: expires_at })
+    const created = await this.get({ provider, providerAccountId })
+    if (!created) throw new Error("Failed to fetch created account")
+    return created
   }
 
-  async get(key: Key): Promise<Account | null> {
+  async get(key: Key): Promise<DetaAccount | null> {
     const data = await this.db.get(this.getId(key))
     return this.parse(data)
   }
-  async delete(key: Key): Promise<Account | null> {
+
+  async getAll(userId: string): Promise<DetaAccount[]> {
+    const { items } = await this.db.fetch({ userId })
+    return items
+      .map((item) => this.parse(item))
+      .filter(Boolean) as DetaAccount[]
+  }
+
+  async delete(key: Key): Promise<DetaAccount | null> {
     const account = await this.get(key)
     await this.db.delete(this.getId(key))
     return account
   }
-  async deleteAll(userId: string): Promise<Account[]> {
-    const { items } = await this.db.fetch({ userId })
-    const results = await Promise.all(
-      items.map(({ key }) => this.delete(this.getKey(key as string))),
-    )
-    return results.filter((item) => item !== null) as Account[]
+
+  async deleteAll(userId: string): Promise<DetaAccount[]> {
+    const accounts = await this.getAll(userId)
+    return (
+      await Promise.all(
+        accounts.map(({ provider, providerAccountId }) =>
+          this.delete({ provider, providerAccountId }),
+        ),
+      )
+    ).filter(Boolean) as DetaAccount[]
   }
 
-  private parse(data: GetResponse): Account | null {
+  private parse(data: GetResponse): DetaAccount | null {
     if (!data) return null
     const { key, ...rest } = data
-    return format<Account>(rest)
+    return format<DetaAccount>(rest)
   }
 }

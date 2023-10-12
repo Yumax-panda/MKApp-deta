@@ -5,7 +5,7 @@ export type DetaAccount = {
   userId: string
   type: string
   provider: string
-  providerAcountId: string
+  providerAccountId: string
   refresh_token?: string
   access_token?: string
   expires_at?: number
