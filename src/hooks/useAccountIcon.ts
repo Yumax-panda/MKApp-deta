@@ -1,6 +1,5 @@
-import { useRouter } from "next/navigation"
 import type { AdapterUser } from "next-auth/adapters"
-import { useSession, signOut } from "next-auth/react"
+import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
 
 type UseAccountIconReturn = {
