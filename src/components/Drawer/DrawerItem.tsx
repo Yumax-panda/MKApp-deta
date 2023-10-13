@@ -2,6 +2,7 @@ import { Add } from "@mui/icons-material"
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   List,
   ListItem,
@@ -71,16 +72,16 @@ function DrawerItem() {
         ))}
       </List>
       <Divider />
-      <List sx={{ position: "fixed", bottom: 0 }}>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <Add />
-            </ListItemIcon>
-            <ListItemText primary="サーバーを読み込む" />
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <Button startIcon={<Add />} sx={{ margin: "auto" }}>
+          サーバーを追加
+        </Button>
+      </Box>
     </div>
   )
 }
