@@ -2,6 +2,7 @@ import { CssBaseline } from "@mui/material"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import AuthProvider from "./Provider"
+import Template from "@/components/Template/Template"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -19,7 +20,9 @@ export default function RootLayout({
     <html lang="ja">
       <CssBaseline />
       <AuthProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <Template titile="test">{children}</Template>
+        </body>
       </AuthProvider>
     </html>
   )
