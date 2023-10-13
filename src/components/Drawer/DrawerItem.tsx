@@ -77,7 +77,7 @@ function DrawerItem() {
             <ListItemIcon>
               <Add />
             </ListItemIcon>
-            <ListItemText primary="参加サーバーを読み込む" />
+            <ListItemText primary="サーバーを読み込む" />
           </ListItemButton>
         </ListItem>
       </List>

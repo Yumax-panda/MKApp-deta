@@ -69,7 +69,6 @@ function Drawer({ window, titile, children }: Props) {
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           minHeight: "80vh",
-          backgroundColor: "#F8F9FA",
         }}
       >
         <Toolbar />
