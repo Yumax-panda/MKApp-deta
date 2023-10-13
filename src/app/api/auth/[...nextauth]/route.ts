@@ -1,8 +1,8 @@
-import { DetaAdapter } from "@/adapter/deta"
-import { DetaClient } from "@/repository/deta"
 import NextAuth from "next-auth"
 import type { AuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
+import { DetaAdapter } from "@/adapter/deta"
+import { DetaClient } from "@/repository/deta"
 
 export const client = new DetaClient(
   process.env.NEXT_PUBLIC_DETA_PROJECT_KEY as string,
