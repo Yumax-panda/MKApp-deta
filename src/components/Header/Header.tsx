@@ -1,5 +1,6 @@
 import MenuIcon from "@mui/icons-material/Menu"
-import { Toolbar, Typography, AppBar, IconButton } from "@mui/material"
+import { Toolbar, Typography, AppBar, IconButton, Box } from "@mui/material"
+import AccountIcon from "../AccountIcon/AccountIcon"
 import { drawerWidth } from "@/utils/style"
 
 interface Props {
@@ -25,9 +26,18 @@ function Header({ handleDrawerToggle }: Props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          MKApp-deta
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h6" noWrap component="div">
+            MKApp-deta
+          </Typography>
+          <AccountIcon />
+        </Box>
       </Toolbar>
     </AppBar>
   )
