@@ -1,23 +1,26 @@
-"use client";
+"use client"
 
-import { signIn, useSession, signOut, getSession } from "next-auth/react";
-import { useState, useEffect } from "react";
+import { signIn, useSession, signOut } from "next-auth/react"
+import { useState, useEffect } from "react"
 
 export default function Home() {
-  const session = useSession();
-  const [msg, setMsg] = useState<string>("");
+  const session = useSession()
+  const [msg, setMsg] = useState<string>("")
 
   useEffect(() => {
-    (async () => {
-      const res = await getSession();
-      setMsg(JSON.stringify(res));
-    })();
-  }, [session]);
+    const _fetch = async () => {
+      const res = await fetch("/api")
+      const data = await res.json()
+      setMsg(JSON.stringify(data))
+    }
+    _fetch()
+  }, [session])
   return (
     <>
-      <button onClick={() => signIn()}>Sign in</button>
+      <button onClick={() => signIn("discord")}>Sign in</button>
       <button onClick={() => signOut()}>Sign out</button>
-      <p>{msg}: test</p>
+      <p>{JSON.stringify(session)}: test</p>
+      <p>{msg}</p>
     </>
-  );
+  )
 }
