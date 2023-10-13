@@ -5,9 +5,10 @@ import { drawerWidth } from "@/utils/style"
 
 interface Props {
   handleDrawerToggle: () => void
+  title: string
 }
 
-function Header({ handleDrawerToggle }: Props) {
+function Header({ handleDrawerToggle, title }: Props) {
   return (
     <AppBar
       position="fixed"
@@ -34,7 +35,7 @@ function Header({ handleDrawerToggle }: Props) {
           }}
         >
           <Typography variant="h6" noWrap component="div">
-            MKApp-deta
+            {title}
           </Typography>
           <AccountIcon />
         </Box>
