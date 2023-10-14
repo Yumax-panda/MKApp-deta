@@ -1,10 +1,10 @@
-import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
+import type DetaClass from "deta/dist/types/deta"
 import type { GetResponse } from "deta/dist/types/types/base/response"
-import type { DetaUser, User } from "@/models/user"
+import { AccountRepository } from "./account"
+import type { User } from "@/models/user"
 import { format, toPayload } from "@/utils"
 import type { Update } from "@/utils"
-import { AccountRepository } from "./account"
 
 type UpdateUser = Update<User, "id">
 

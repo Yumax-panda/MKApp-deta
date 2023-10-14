@@ -1,23 +1,32 @@
 import { Deta } from "deta"
-import { UserRepository } from "./user"
-import { SessionRepository } from "./session"
 import { AccountRepository } from "./account"
+import { GuildRepository } from "./guild"
+import { SessionRepository } from "./session"
+import { UserRepository } from "./user"
 
 export interface DetaClientType {
   user: UserRepository
   session: SessionRepository
   account: AccountRepository
+  guild: GuildRepository
 }
 
 export class DetaClient implements DetaClientType {
   user: UserRepository
   session: SessionRepository
   account: AccountRepository
+  guild: GuildRepository
 
-  constructor(projectKey: string) {
-    const deta = Deta(projectKey)
+  constructor() {
+    const Authtoken = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY
+    const BotDBToken = process.env.NEXT_PUBLIC_BOT_DB_PROJECT_KEY
+    if (!(Authtoken && BotDBToken)) throw new Error("Project key is not found")
+    const deta = Deta(Authtoken)
+    const botDB = Deta(BotDBToken)
     this.user = new UserRepository(deta)
     this.session = new SessionRepository(deta)
     this.account = new AccountRepository(deta)
+    this.guild = new GuildRepository(deta)
+    // this.botDB = new ResultRepository(botDB)
   }
 }
