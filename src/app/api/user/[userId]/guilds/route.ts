@@ -4,31 +4,19 @@ import { DetaClient } from "@/repository/deta"
 
 const client = new DetaClient()
 
-export async function GET(
-  req: Request,
-  {
-    params,
-  }: {
-    params: {
-      userId: string
-    }
-  },
-) {
+type UrlParams = {
+  params: {
+    userId: string
+  }
+}
+
+export async function GET(req: Request, { params }: UrlParams) {
   const { userId } = params
   const guilds = await client.guild.get(userId)
   return NextResponse.json(guilds)
 }
 
-export async function PATCH(
-  req: Request,
-  {
-    params,
-  }: {
-    params: {
-      userId: string
-    }
-  },
-) {
+export async function PATCH(req: Request, { params }: UrlParams) {
   const { userId } = params
   const account = await client.account.getAll(userId)
   if (!account.length) {
