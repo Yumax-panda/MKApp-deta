@@ -2,6 +2,7 @@ import { Add } from "@mui/icons-material"
 import {
   Avatar,
   Box,
+  Button,
   Divider,
   List,
   ListItem,
@@ -18,9 +19,25 @@ function DrawerItem() {
   const { guilds } = usePartialGuilds()
 
   return (
-    <div style={{ height: "100%" }}>
-      <Toolbar>
-        <Box sx={{ margin: "auto" }}>
+    <div
+      style={{
+        height: "100vh",
+        overflowY: "hidden",
+      }}
+    >
+      <Toolbar
+        sx={{
+          top: 0,
+          display: "flex",
+          justifyContent: "center",
+          p: 0,
+        }}
+      >
+        <Box
+          sx={{
+            margin: "auto",
+          }}
+        >
           <Link
             href="/"
             style={{
@@ -35,18 +52,19 @@ function DrawerItem() {
         </Box>
       </Toolbar>
       <Divider />
-      <List style={{ overflowX: "hidden", overflowY: "scroll", height: "80%" }}>
+
+      <List
+        style={{
+          overflowX: "hidden",
+          overflowY: "scroll",
+          height: "80vh",
+        }}
+      >
         {guilds.map((guild, index) => (
-          <ListItem
-            key={`${guild.id}_${index}`}
-            sx={{
-              paddingRight: "2rem",
-              paddingLeft: "0",
-            }}
-          >
+          <ListItem key={`${guild.id}_${index}`}>
             <Link
               href={`/guild/${guild.id}`}
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", width: "100%" }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -59,6 +77,7 @@ function DrawerItem() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        color: "black",
                       }}
                     >
                       {guild.name}
@@ -71,16 +90,11 @@ function DrawerItem() {
         ))}
       </List>
       <Divider />
-      <List sx={{ position: "fixed", bottom: 0 }}>
-        <ListItem disablePadding>
-          <ListItemButton>
-            <ListItemIcon>
-              <Add />
-            </ListItemIcon>
-            <ListItemText primary="参加サーバーを読み込む" />
-          </ListItemButton>
-        </ListItem>
-      </List>
+      <Box sx={{ display: "flex", alignItems: "center", paddingTop: "3vh" }}>
+        <Button startIcon={<Add />} sx={{ margin: "auto" }}>
+          サーバーを追加
+        </Button>
+      </Box>
     </div>
   )
 }

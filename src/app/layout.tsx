@@ -20,7 +20,10 @@ export default function RootLayout({
     <html lang="ja">
       <CssBaseline />
       <AuthProvider>
-        <body className={inter.className}>
+        <body
+          className={inter.className}
+          style={{ backgroundColor: "#F8F9FA" }}
+        >
           <Template titile="test">{children}</Template>
         </body>
       </AuthProvider>

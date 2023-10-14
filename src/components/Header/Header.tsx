@@ -1,5 +1,12 @@
 import MenuIcon from "@mui/icons-material/Menu"
-import { Toolbar, Typography, AppBar, IconButton, Box } from "@mui/material"
+import {
+  Toolbar,
+  Typography,
+  AppBar,
+  IconButton,
+  Box,
+  Container,
+} from "@mui/material"
 import AccountIcon from "../AccountIcon/AccountIcon"
 import { drawerWidth } from "@/utils/style"
 
@@ -13,8 +20,8 @@ function Header({ handleDrawerToggle, title }: Props) {
     <AppBar
       position="fixed"
       sx={{
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
-        ml: { sm: `${drawerWidth}px` },
+        width: { sm: `calc(100% - ${drawerWidth})` },
+        ml: { sm: drawerWidth },
       }}
     >
       <Toolbar>
@@ -27,18 +34,16 @@ function Header({ handleDrawerToggle, title }: Props) {
         >
           <MenuIcon />
         </IconButton>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
+        <Typography
+          variant="h6"
+          noWrap
+          component="div"
+          sx={{ display: "block" }}
         >
-          <Typography variant="h6" noWrap component="div">
-            {title}
-          </Typography>
-          <AccountIcon />
-        </Box>
+          {title}
+        </Typography>
+        <Box sx={{ flexGrow: 1 }} />
+        <AccountIcon />
       </Toolbar>
     </AppBar>
   )
