@@ -2,7 +2,7 @@ import type BaseClass from "deta/dist/types/base"
 import type DetaClass from "deta/dist/types/deta"
 import type { PartialGuild } from "@/models/guild"
 
-type GuildPayload = {
+export type GuildPayload = {
   id: string
   name: string
   icon: string
