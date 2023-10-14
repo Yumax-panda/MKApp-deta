@@ -1,5 +1,5 @@
-import type { DetaClientType } from "@/repository/deta"
 import type { Adapter, AdapterUser, AdapterAccount } from "next-auth/adapters"
+import type { DetaClientType } from "@/repository/deta"
 
 export function DetaAdapter(d: DetaClientType): Adapter {
   return {

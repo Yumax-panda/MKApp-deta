@@ -1,16 +1,14 @@
 import type BaseClass from "deta/dist/types/base"
 import type DetaClass from "deta/dist/types/deta"
-import type { GetResponse } from "deta/dist/types/types/base/response"
-import { format } from "@/utils"
-import type { Update } from "@/utils"
+import type { PartialGuild } from "@/models/guild"
 
 type GuildPayload = {
   id: string
   name: string
   icon: string
 }
-type UpdateGuild = Update<GuildPayload, "id">
 
+type PutGuildPayload = GuildPayload | PartialGuild
 export class GuildRepository {
   deta: DetaClass
   db: BaseClass
@@ -20,36 +18,24 @@ export class GuildRepository {
     this.db = deta.Base("guild")
   }
 
-  async put(guild: GuildPayload): Promise<GuildPayload> {
-    const payload = {
-      id: guild.id,
-      name: guild.name,
-      icon: guild.icon,
-    }
-    await this.db.put(payload, guild.id)
-    const created = await this.get(guild.id)
-    if (!created) throw new Error("Failed to fetch created guild")
-    return created
+  async get(userId: string): Promise<GuildPayload[]> {
+    const data = await this.db.get(userId)
+    if (!data) return []
+    return data.guilds as GuildPayload[]
   }
 
-  async putMany(guilds: GuildPayload[]): Promise<GuildPayload[]> {
-    const payload = guilds.map((guild) => ({
+  async put(
+    userId: string,
+    guilds: PutGuildPayload[],
+  ): Promise<GuildPayload[]> {
+    const data = guilds.map((guild) => ({
       id: guild.id,
       name: guild.name,
       icon: guild.icon,
     }))
-    const newGuilds = await Promise.all(payload.map((guild) => this.put(guild)))
-    return newGuilds
-  }
-
-  async get(guildId: string): Promise<GuildPayload | null> {
-    const data = await this.db.get(guildId)
-    return this.parse(data)
-  }
-
-  private parse(data: GetResponse): GuildPayload | null {
-    if (!data) return null
-    const { key, ...rest } = data
-    return format<GuildPayload>(rest)
+    await this.db.put({ guilds: data }, userId)
+    const created = await this.get(userId)
+    if (created.length !== data.length) throw new Error("Failed to put guilds")
+    return created
   }
 }
