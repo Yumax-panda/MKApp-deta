@@ -1,5 +1,9 @@
-import Auth from "@/components/Auth/Auth"
+import Template from "@/components/Template/Template"
 
 export default function Home() {
-  return <Auth>test</Auth>
+  return (
+    <Template titile="Home">
+      <h1>Home Page</h1>
+    </Template>
+  )
 }
