@@ -9,7 +9,7 @@ type UseResultsReturn = {
 
 export const useResults = (guildId: string): UseResultsReturn => {
   const [results, setResults] = useState<Result[]>([])
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const fetchResults = async (guildId: string) => {
     const res = await fetch(`/api/guild/${guildId}/results`)
