@@ -1,9 +1,7 @@
 import Box from "@mui/material/Box"
-import { DataGrid } from "@mui/x-data-grid"
+// eslint-disable-next-line
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
 import * as React from "react"
-
-type GridColDef = import("@mui/x-data-grid").GridColDef
-type GridValueGetterParams = import("@mui/x-data-grid").GridValueGetterParams
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
