@@ -1,7 +1,7 @@
-import Box from "@mui/material/Box"
+import { Box, Paper } from "@mui/material"
 // eslint-disable-next-line
 import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
-import * as React from "react"
+import React from "react"
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
@@ -49,20 +49,25 @@ const rows = [
 
 export default function ResultTable() {
   return (
-    <Box sx={{ height: 400, width: "100%" }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 5,
+    <Paper sx={{ width: "84vw", padding: 3 }}>
+      <Box sx={{ width: "100%" }}>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[5]}
-        disableRowSelectionOnClick
-      />
-    </Box>
+          }}
+          pageSizeOptions={[5]}
+          disableRowSelectionOnClick
+          sx={{
+            border: "none",
+          }}
+        />
+      </Box>
+    </Paper>
   )
 }
