@@ -1,5 +1,6 @@
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
+import { toast } from "react-toastify"
 import type { PartialGuild } from "@/models/guild"
 import type { GuildPayload } from "@/repository/guild"
 
@@ -42,6 +43,7 @@ export const usePartialGuilds = (): UsePartialGuildsReturn => {
     const guilds = (await res.json()) as GuildPayload[]
     setGuilds(guilds.map((g) => ({ ...g, icon: url(g) })))
     setLoading(false)
+    toast.success("参加サーバーを読み込みました")
   }
 
   return {

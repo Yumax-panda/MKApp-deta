@@ -1,7 +1,8 @@
 import { CssBaseline } from "@mui/material"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
-import AuthProvider from "./Provider"
+import AuthProvider from "./AuthProvider"
+import ToastProvider from "./ToastProvider"
 import Auth from "@/components/Auth/Auth"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -17,16 +18,19 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ja">
-      <CssBaseline />
-      <AuthProvider>
+    <AuthProvider>
+      <html lang="ja">
+        <CssBaseline />
         <body
           className={inter.className}
           style={{ backgroundColor: "#F8F9FA" }}
+          suppressHydrationWarning
         >
-          <Auth>{children}</Auth>
+          <ToastProvider>
+            <Auth>{children}</Auth>
+          </ToastProvider>
         </body>
-      </AuthProvider>
-    </html>
+      </html>
+    </AuthProvider>
   )
 }
