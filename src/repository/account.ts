@@ -1,5 +1,5 @@
-import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
+import type DetaClass from "deta/dist/types/deta"
 import type { GetResponse } from "deta/dist/types/types/base/response"
 import type { DetaAccount } from "@/models/account"
 import { format } from "@/utils/format"

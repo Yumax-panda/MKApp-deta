@@ -1,9 +1,9 @@
-import type DetaClass from "deta/dist/types/deta"
 import type BaseClass from "deta/dist/types/base"
+import type DetaClass from "deta/dist/types/deta"
 import type { GetResponse } from "deta/dist/types/types/base/response"
+import type { DetaSession } from "@/models"
 import { format, toPayload } from "@/utils"
 import type { Update } from "@/utils"
-import type { DetaSession } from "@/models"
 
 type UpdateSession = Update<DetaSession, "sessionToken">
 export class SessionRepository {

@@ -1,7 +1,7 @@
 import { Deta } from "deta"
-import { UserRepository } from "./user"
-import { SessionRepository } from "./session"
 import { AccountRepository } from "./account"
+import { SessionRepository } from "./session"
+import { UserRepository } from "./user"
 
 export interface DetaClientType {
   user: UserRepository
