@@ -4,9 +4,9 @@ import DiscordProvider from "next-auth/providers/discord"
 import { DetaAdapter } from "@/adapter/deta"
 import { DetaClient } from "@/repository/deta"
 
-export const client = new DetaClient()
+const client = new DetaClient()
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   providers: [
     DiscordProvider({
       clientId: process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID as string,
