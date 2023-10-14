@@ -1,12 +1,5 @@
 import MenuIcon from "@mui/icons-material/Menu"
-import {
-  Toolbar,
-  Typography,
-  AppBar,
-  IconButton,
-  Box,
-  Container,
-} from "@mui/material"
+import { Toolbar, Typography, AppBar, IconButton, Box } from "@mui/material"
 import AccountIcon from "../AccountIcon/AccountIcon"
 import { drawerWidth } from "@/utils/style"
 
