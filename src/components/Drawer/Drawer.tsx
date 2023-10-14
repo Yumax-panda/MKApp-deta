@@ -67,8 +67,7 @@ function Drawer({ window, titile, children }: Props) {
         sx={{
           flexGrow: 1,
           p: 3,
-          width: { sm: `calc(100% - ${drawerWidth}px)` },
-          minHeight: "80vh",
+          width: { sm: `calc(100% - ${drawerWidth})` },
         }}
       >
         <Toolbar />

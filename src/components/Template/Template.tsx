@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import Drawer from "../Drawer/Drawer"
 
 type Props = {
@@ -6,7 +7,11 @@ type Props = {
 }
 
 function Template({ titile, children }: Props) {
-  return <Drawer titile={titile}>{children}</Drawer>
+  return (
+    <Drawer titile={titile}>
+      <Box>{children}</Box>
+    </Drawer>
+  )
 }
 
 export default Template
