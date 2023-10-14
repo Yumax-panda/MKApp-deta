@@ -19,13 +19,6 @@ export async function GET(
   return NextResponse.json(guilds)
 }
 
-// export async function PUT(req: Request, { params }: Params) {
-//   const { userId } = params
-//   const { guilds } = await req.json()
-//   const updated = await client.guild.put(userId, guilds)
-//   return NextResponse.json(updated)
-// }
-
 export async function PATCH(
   req: Request,
   {

@@ -5,7 +5,7 @@ import type { PartialGuild } from "@/models/guild"
 export type GuildPayload = {
   id: string
   name: string
-  icon: string
+  icon: string | null
 }
 
 type PutGuildPayload = GuildPayload | PartialGuild

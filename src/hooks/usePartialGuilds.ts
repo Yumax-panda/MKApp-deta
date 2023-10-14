@@ -9,7 +9,8 @@ type UsePartialGuildsReturn = {
   loading: boolean
 }
 
-function url(guild: GuildPayload | PartialGuild): string {
+function url(guild: GuildPayload | PartialGuild): string | null {
+  if (!guild.icon) return null
   return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
 }
 

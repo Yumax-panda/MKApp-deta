@@ -70,7 +70,7 @@ function DrawerItem() {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  <Avatar src={guild.icon} />
+                  <Avatar src={guild.icon || "/discord.svg"} />
                 </ListItemIcon>
                 <ListItemText
                   primary={
