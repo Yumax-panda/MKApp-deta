@@ -4,16 +4,17 @@ import { Box, Drawer as MuiDrawer, Toolbar } from "@mui/material"
 import { useState } from "react"
 import Header from "../Header/Header"
 import DrawerItem from "./DrawerItem"
+import { useTitle } from "@/hooks/useTitle"
 import { drawerWidth } from "@/utils/style"
 
 interface Props {
   window?: () => Window
-  titile: string
   children: React.ReactNode
 }
 
-function Drawer({ window, titile, children }: Props) {
+function Drawer({ window, children }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
+  const { title } = useTitle()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -24,7 +25,7 @@ function Drawer({ window, titile, children }: Props) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <Header handleDrawerToggle={handleDrawerToggle} title={titile} />
+      <Header handleDrawerToggle={handleDrawerToggle} title={title} />
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}

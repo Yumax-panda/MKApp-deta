@@ -1,6 +1,7 @@
 import { Deta } from "deta"
 import { AccountRepository } from "./account"
 import { GuildRepository } from "./guild"
+import { GuildDetailRepository } from "./guildDetail"
 import { ResultRepository } from "./result"
 import { SessionRepository } from "./session"
 import { UserRepository } from "./user"
@@ -10,6 +11,7 @@ export interface DetaClientType {
   session: SessionRepository
   account: AccountRepository
   guild: GuildRepository
+  guildDetail: GuildDetailRepository
   result: ResultRepository
 }
 
@@ -18,6 +20,7 @@ export class DetaClient implements DetaClientType {
   session: SessionRepository
   account: AccountRepository
   guild: GuildRepository
+  guildDetail: GuildDetailRepository
   result: ResultRepository
 
   constructor() {
@@ -30,6 +33,7 @@ export class DetaClient implements DetaClientType {
     this.session = new SessionRepository(deta)
     this.account = new AccountRepository(deta)
     this.guild = new GuildRepository(deta)
+    this.guildDetail = new GuildDetailRepository(deta)
     this.result = new ResultRepository(botDB)
   }
 }
