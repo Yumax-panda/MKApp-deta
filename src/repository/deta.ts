@@ -1,6 +1,7 @@
 import { Deta } from "deta"
 import { AccountRepository } from "./account"
 import { GuildRepository } from "./guild"
+import { ResultRepository } from "./result"
 import { SessionRepository } from "./session"
 import { UserRepository } from "./user"
 
@@ -9,6 +10,7 @@ export interface DetaClientType {
   session: SessionRepository
   account: AccountRepository
   guild: GuildRepository
+  result: ResultRepository
 }
 
 export class DetaClient implements DetaClientType {
@@ -16,6 +18,7 @@ export class DetaClient implements DetaClientType {
   session: SessionRepository
   account: AccountRepository
   guild: GuildRepository
+  result: ResultRepository
 
   constructor() {
     const Authtoken = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY
@@ -27,6 +30,6 @@ export class DetaClient implements DetaClientType {
     this.session = new SessionRepository(deta)
     this.account = new AccountRepository(deta)
     this.guild = new GuildRepository(deta)
-    // this.botDB = new ResultRepository(botDB)
+    this.result = new ResultRepository(botDB)
   }
 }
