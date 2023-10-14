@@ -1,55 +1,122 @@
-import { Box, Paper } from "@mui/material"
-// eslint-disable-next-line
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid"
-import React from "react"
+import { Box, Paper, Typography } from "@mui/material"
+import {
+  DataGrid,
+  // eslint-disable-next-line
+  GridColDef,
+  // eslint-disable-next-line
+  GridValueGetterParams,
+  // eslint-disable-next-line
+  GridRenderCellParams,
+  jaJP,
+} from "@mui/x-data-grid"
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "ID", width: 90 },
   {
-    field: "firstName",
-    headerName: "First name",
-    width: 150,
+    field: "enemy",
+    headerName: "チーム名",
     editable: true,
   },
   {
-    field: "lastName",
-    headerName: "Last name",
-    width: 150,
+    field: "date",
+    headerName: "対戦日",
     editable: true,
+    align: "center",
   },
   {
-    field: "age",
-    headerName: "Age",
-    type: "number",
-    width: 110,
-    editable: true,
+    field: "scores",
+    headerName: "自チーム - 相手チーム",
+    sortable: true,
+    editable: false,
+    align: "center",
+    valueGetter: (params: GridValueGetterParams<any, Row>) => {
+      return params.row.score - params.row.enemyScore
+    },
+    renderCell: (params: GridRenderCellParams<any, Row>) => {
+      return (
+        <Typography
+          sx={{
+            color: "text.primary",
+            fontWeight: "bold",
+          }}
+        >
+          {params.row.score} - {params.row.enemyScore}
+        </Typography>
+      )
+    },
   },
   {
-    field: "fullName",
-    headerName: "Full name",
-    description: "This column has a value getter and is not sortable.",
-    sortable: false,
-    width: 160,
-    valueGetter: (params: GridValueGetterParams) =>
-      `${params.row.firstName || ""} ${params.row.lastName || ""}`,
+    field: "result",
+    headerName: "結果",
+    sortable: true,
+    editable: false,
+    align: "center",
+    valueGetter: (params: GridValueGetterParams<any, Row>) => {
+      return params.row.score - params.row.enemyScore
+    },
+    renderCell: (params: GridRenderCellParams<any, Row>) => {
+      const diff = params.row.score - params.row.enemyScore
+      if (diff > 0) {
+        return (
+          <Typography
+            sx={{
+              color: "success.main",
+              fontWeight: "bold",
+            }}
+          >
+            Win(+{diff})
+          </Typography>
+        )
+      } else if (diff < 0) {
+        return (
+          <Typography
+            sx={{
+              color: "error.main",
+              fontWeight: "bold",
+            }}
+          >
+            Lose({diff})
+          </Typography>
+        )
+      } else {
+        return (
+          <Typography
+            sx={{
+              color: "text.primary",
+              fontWeight: "bold",
+            }}
+          >
+            Draw
+          </Typography>
+        )
+      }
+    },
   },
 ]
 
-const rows = [
-  { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-  { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-  { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-  { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-  { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-  { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-  { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-  { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-  { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-]
+type Row = {
+  id: number
+  enemy: string
+  date: string
+  score: number
+  enemyScore: number
+}
 
-export default function ResultTable() {
+type Props = {
+  rows: Row[]
+}
+
+export default function ResultTable({ rows }: Props) {
   return (
-    <Paper sx={{ width: "84vw", padding: 3 }}>
+    <Paper
+      sx={{
+        width: "84vw",
+        maxWidth: "1000px",
+        padding: 3,
+        margin: "auto",
+        borderRadius: "10px",
+      }}
+    >
       <Box sx={{ width: "100%" }}>
         <DataGrid
           rows={rows}
@@ -57,15 +124,16 @@ export default function ResultTable() {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 5,
+                pageSize: 50,
               },
             },
           }}
-          pageSizeOptions={[5]}
+          pageSizeOptions={[50, 100, 200]}
           disableRowSelectionOnClick
           sx={{
             border: "none",
           }}
+          localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
         />
       </Box>
     </Paper>
