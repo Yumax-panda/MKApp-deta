@@ -9,7 +9,7 @@ export default function Home() {
         maxWidth="lg"
         sx={{ display: "flex", flexDirection: "column" }}
       >
-        <Typography variant="h4">このサイトについて</Typography>
+        <Typography variant="h5">このサイトについて</Typography>
         <FeatureSection />
       </Container>
     </Template>
