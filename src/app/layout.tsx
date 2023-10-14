@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import AuthProvider from "./AuthProvider"
 import ToastProvider from "./ToastProvider"
 import Auth from "@/components/Auth/Auth"
+import Template from "@/components/Template/Template"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -27,7 +28,9 @@ export default function RootLayout({
           suppressHydrationWarning
         >
           <ToastProvider>
-            <Auth>{children}</Auth>
+            <Auth>
+              <Template>{children}</Template>
+            </Auth>
           </ToastProvider>
         </body>
       </html>
