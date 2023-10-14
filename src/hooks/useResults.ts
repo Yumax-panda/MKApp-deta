@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react"
+import type { GuildDetail } from "@/models/guildDetail"
 import type { Result } from "@/models/result"
 
+type APIResponse = {
+  results: Result[]
+} & GuildDetail
+
 type UseResultsReturn = {
+  detail: GuildDetail | null
   results: Result[]
   isLoading: boolean
   refresh: () => Promise<void>
@@ -9,29 +15,37 @@ type UseResultsReturn = {
 
 export const useResults = (guildId: string): UseResultsReturn => {
   const [results, setResults] = useState<Result[]>([])
+  const [detail, setDetail] = useState<GuildDetail | null>(null)
   const [isLoading, setIsLoading] = useState(false)
 
-  const fetchResults = async (guildId: string) => {
+  const fetchGuild = async (guildId: string) => {
     const res = await fetch(`/api/guild/${guildId}/results`)
-    return (await res.json()) as Result[]
+    return (await res.json()) as APIResponse
   }
 
   useEffect(() => {
-    const fetch = async () => {
+    const _fetch = async () => {
       setIsLoading(true)
-      const results = await fetchResults(guildId)
+      const { results, ...detail } = await fetchGuild(guildId)
       setResults(results)
+      setDetail(detail)
       setIsLoading(false)
     }
-    fetch()
+    _fetch()
   }, [guildId])
 
   const refresh = async () => {
     setIsLoading(true)
-    const results = await fetchResults(guildId)
+    const { results, ...rest } = await fetchGuild(guildId)
     setResults(results)
+    setDetail(rest)
     setIsLoading(false)
   }
 
-  return { results, isLoading, refresh }
+  return {
+    detail,
+    results,
+    isLoading,
+    refresh,
+  }
 }
