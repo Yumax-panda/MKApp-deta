@@ -40,7 +40,7 @@ asdf reshim nodejs
 npm install
 ```
 
-5. **Set your configuration**
+5. **Setup configuration**
 
 Just create `.env` file on the root directory
 
