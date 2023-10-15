@@ -13,17 +13,20 @@ A web service of [MK8DX discord bot](https://discord.com/oauth2/authorize?client
 ## Installing
 
 1. **Clone source**
-   you can just run the following command:
+
+you can just run the following command:
 
 ```bash
 git clone git@github.com:Yumax-panda/MKApp-deta.git
 ```
 
 2. **Make sure to use Linux or MacOS**
-   Linux or MaxOS recommended. If you use Windows, it would be better to use WSL instead.
+
+Linux or MaxOS recommended. If you use Windows, it would be better to use WSL instead.
 
 3. **Match the version of Node.js**
-   Install asdf or other software to match the version of Node.js. For asdf, run the following command:
+
+Install asdf or other software to match the version of Node.js. For asdf, run the following command:
 
 ```bash
 asdf install
