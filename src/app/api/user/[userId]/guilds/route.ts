@@ -34,7 +34,7 @@ export async function PATCH(req: Request, { params }: UrlParams) {
     name: guild.name,
     icon: guild.icon,
   }))
-  const tasks = data.map((guild) => client.guildDetail.put(guild))
+  const tasks = data.map((guild) => client.guildDetail.upsert(guild))
   const [updated, _] = await Promise.all([
     client.guild.put(userId, data),
     ...tasks,
