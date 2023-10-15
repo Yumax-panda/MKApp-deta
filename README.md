@@ -14,7 +14,7 @@ A web service of [MK8DX discord bot](https://discord.com/oauth2/authorize?client
 
 1. **Clone source**
 
-you can just run the following command:
+You can just run the following command:
 
 ```bash
 git clone git@github.com:Yumax-panda/MKApp-deta.git
