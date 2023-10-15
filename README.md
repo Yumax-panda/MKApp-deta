@@ -2,7 +2,7 @@
 
 A web service of [MK8DX discord bot](https://discord.com/oauth2/authorize?client_id=1038322985146273853&permissions=854027660408&scope=bot%20applications.commands).
 
-[日本語はこちらから](/README_ja.md)
+[日本語はこちらから](/README_Ja.md)
 
 ## Key Features
 
