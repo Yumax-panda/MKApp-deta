@@ -34,7 +34,13 @@ corepack enable
 asdf reshim nodejs
 ```
 
-4. **Set your configuration**
+4. **Install required packages**
+
+```bash
+npm install
+```
+
+5. **Set your configuration**
 
 Just create `.env` file on the root directory
 
@@ -58,7 +64,7 @@ You can create `NEXTAUTH_SECRET` key using openssl.
 openssl rand -base64 32
 ```
 
-5. **Run app**
+6. **Run app**
 
 ```bash
 npm run dev

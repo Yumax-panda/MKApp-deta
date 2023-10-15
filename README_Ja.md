@@ -24,6 +24,12 @@ corepack enable
 asdf reshim nodejs
 ```
 
+必要なパッケージをインストール
+
+```bash
+npm install
+```
+
 各自APIキーを用意して`.env`ファイルへ設定
 
 ```env
