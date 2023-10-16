@@ -15,7 +15,7 @@ export class GuildRepository {
 
   constructor(deta: DetaClass) {
     this.deta = deta
-    this.db = deta.Base("guild")
+    this.db = deta.Base("Guild")
   }
 
   async get(userId: string): Promise<GuildPayload[]> {
