@@ -15,10 +15,12 @@ import {
   Typography,
 } from "@mui/material"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { usePartialGuilds } from "@/hooks/usePartialGuilds"
 
 function DrawerItem() {
   const { guilds, importGuilds } = usePartialGuilds()
+  const pathname = usePathname()
 
   return (
     <div
@@ -68,7 +70,7 @@ function DrawerItem() {
               href={`/guild/${guild.id}`}
               style={{ textDecoration: "none", width: "100%" }}
             >
-              <ListItemButton>
+              <ListItemButton selected={pathname.includes(guild.id.toString())}>
                 <ListItemIcon>
                   <Avatar src={guild.icon || "/discord.svg"} />
                 </ListItemIcon>
