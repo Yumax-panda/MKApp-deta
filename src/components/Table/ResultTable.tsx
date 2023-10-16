@@ -124,11 +124,11 @@ export default function ResultTable({ rows }: Props) {
           initialState={{
             pagination: {
               paginationModel: {
-                pageSize: 50,
+                pageSize: 25,
               },
             },
           }}
-          pageSizeOptions={[50, 100, 200]}
+          pageSizeOptions={[25, 50, 100]}
           disableRowSelectionOnClick
           sx={{
             border: "none",
