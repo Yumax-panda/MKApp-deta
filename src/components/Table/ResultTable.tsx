@@ -10,7 +10,7 @@ import {
   jaJP,
 } from "@mui/x-data-grid"
 
-const columns: GridColDef[] = [
+const columns: GridColDef<Row>[] = [
   { field: "id", headerName: "ID" },
   {
     field: "enemy",
