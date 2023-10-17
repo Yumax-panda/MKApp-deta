@@ -121,7 +121,7 @@ export default function ResultTable({ rows }: Props) {
         borderRadius: "10px",
       }}
     >
-      <Box sx={{ width: "100%", overflowX: "auto" }}>
+      <Box>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -137,6 +137,7 @@ export default function ResultTable({ rows }: Props) {
           sx={{
             border: "none",
             padding: 3,
+            width: "100%",
           }}
           localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
         />
