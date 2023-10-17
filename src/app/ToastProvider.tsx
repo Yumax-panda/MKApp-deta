@@ -10,7 +10,7 @@ export default function ToastProvider({
 }) {
   return (
     <div>
-      <ToastContainer />
+      <ToastContainer theme="colored" />
       {children}
     </div>
   )
