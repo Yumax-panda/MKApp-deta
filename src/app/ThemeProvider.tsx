@@ -8,7 +8,7 @@ type Props = {
 
 const theme = createTheme({
   palette: {
-    mode: "light",
+    mode: "dark",
   },
 })
 

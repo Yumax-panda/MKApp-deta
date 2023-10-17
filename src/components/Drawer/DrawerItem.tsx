@@ -68,7 +68,11 @@ function DrawerItem() {
           <ListItem key={`${guild.id}_${index}`}>
             <Link
               href={`/guild/${guild.id}`}
-              style={{ textDecoration: "none", width: "100%" }}
+              style={{
+                textDecoration: "none",
+                width: "100%",
+                color: "inherit",
+              }}
             >
               <ListItemButton selected={pathname.includes(guild.id.toString())}>
                 <ListItemIcon>
@@ -81,7 +85,6 @@ function DrawerItem() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
-                        color: "black",
                       }}
                     >
                       {guild.name}

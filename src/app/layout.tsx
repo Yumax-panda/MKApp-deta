@@ -24,11 +24,7 @@ export default function RootLayout({
       <AuthProvider>
         <html lang="ja">
           <CssBaseline />
-          <body
-            className={inter.className}
-            style={{ backgroundColor: "#F8F9FA" }}
-            suppressHydrationWarning
-          >
+          <body className={inter.className} suppressHydrationWarning>
             <ToastProvider>
               <Auth>
                 <Template>{children}</Template>
