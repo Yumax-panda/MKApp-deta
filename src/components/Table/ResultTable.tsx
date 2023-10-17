@@ -150,7 +150,11 @@ export default function ResultTable({ rows }: Props) {
           padding: 3,
           width: "100%",
         }}
-        localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
+        localeText={{
+          ...jaJP.components.MuiDataGrid.defaultProps.localeText,
+          noRowsLabel: "戦績がありません",
+        }}
+        autoHeight
       />
     </Paper>
   )
