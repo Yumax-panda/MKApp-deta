@@ -7,7 +7,6 @@ import type { GuildPayload } from "@/repository/guild"
 type UsePartialGuildsReturn = {
   guilds: GuildPayload[]
   importGuilds: () => void
-  loading: boolean
 }
 
 function url(guild: GuildPayload | PartialGuild): string | null {
@@ -17,18 +16,15 @@ function url(guild: GuildPayload | PartialGuild): string | null {
 
 export const usePartialGuilds = (): UsePartialGuildsReturn => {
   const [guilds, setGuilds] = useState<GuildPayload[]>([])
-  const [loading, setLoading] = useState(false)
   const { data: session, status } = useSession({ required: true })
 
   useEffect(() => {
     const fetchGuilds = async () => {
       if (status === "loading") return
       if (!session?.user?.id) return
-      setLoading(true)
       const res = await fetch(`/api/user/${session.user.id}/guilds`)
       const guilds = (await res.json()) as GuildPayload[]
       setGuilds(guilds.map((g) => ({ ...g, icon: url(g) })))
-      setLoading(false)
     }
     fetchGuilds()
   }, [session, status])
@@ -36,19 +32,21 @@ export const usePartialGuilds = (): UsePartialGuildsReturn => {
   const importGuilds = async () => {
     if (status === "loading") return
     if (!session?.user?.id) return
-    setLoading(true)
     const res = await fetch(`/api/user/${session.user.id}/guilds`, {
       method: "PATCH",
     })
     const guilds = (await res.json()) as GuildPayload[]
     setGuilds(guilds.map((g) => ({ ...g, icon: url(g) })))
-    setLoading(false)
-    toast.success("参加サーバーを読み込みました")
   }
 
   return {
     guilds,
-    importGuilds,
-    loading,
+    importGuilds: () => {
+      toast.promise(importGuilds(), {
+        pending: "サーバーを読み込んでいます",
+        success: "サーバーを読み込みました",
+        error: "サーバーの読み込みに失敗しました",
+      })
+    },
   }
 }
