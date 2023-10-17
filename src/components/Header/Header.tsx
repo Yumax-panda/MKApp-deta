@@ -1,6 +1,7 @@
 import MenuIcon from "@mui/icons-material/Menu"
 import { Toolbar, Typography, AppBar, IconButton, Box } from "@mui/material"
 import AccountIcon from "../AccountIcon/AccountIcon"
+import ModeChangeIcon from "../ModeChangeIcon/ModeChangeIcon"
 import { drawerWidth } from "@/utils/style"
 
 interface Props {
@@ -36,6 +37,7 @@ function Header({ handleDrawerToggle, title }: Props) {
           {title}
         </Typography>
         <Box sx={{ flexGrow: 1 }} />
+        <ModeChangeIcon />
         <AccountIcon />
       </Toolbar>
     </AppBar>
