@@ -2,6 +2,7 @@ import { CssBaseline } from "@mui/material"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import AuthProvider from "./AuthProvider"
+import ThemeProvider from "./ThemeProvider"
 import ToastProvider from "./ToastProvider"
 import Auth from "@/components/Auth/Auth"
 import Template from "@/components/Template/Template"
@@ -19,21 +20,23 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <AuthProvider>
-      <html lang="ja">
-        <CssBaseline />
-        <body
-          className={inter.className}
-          style={{ backgroundColor: "#F8F9FA" }}
-          suppressHydrationWarning
-        >
-          <ToastProvider>
-            <Auth>
-              <Template>{children}</Template>
-            </Auth>
-          </ToastProvider>
-        </body>
-      </html>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <html lang="ja">
+          <CssBaseline />
+          <body
+            className={inter.className}
+            style={{ backgroundColor: "#F8F9FA" }}
+            suppressHydrationWarning
+          >
+            <ToastProvider>
+              <Auth>
+                <Template>{children}</Template>
+              </Auth>
+            </ToastProvider>
+          </body>
+        </html>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
