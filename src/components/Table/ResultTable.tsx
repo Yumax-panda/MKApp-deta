@@ -1,3 +1,4 @@
+import { Delete, Edit } from "@mui/icons-material"
 import { Box, Paper, Typography } from "@mui/material"
 import {
   DataGrid,
@@ -7,28 +8,32 @@ import {
   GridValueGetterParams,
   // eslint-disable-next-line
   GridRenderCellParams,
+  GridActionsCellItem,
   jaJP,
 } from "@mui/x-data-grid"
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+const columns: GridColDef<Row>[] = [
+  { field: "id", headerName: "ID" },
   {
     field: "enemy",
     headerName: "チーム名",
     editable: true,
+    type: "string",
   },
   {
     field: "date",
     headerName: "対戦日",
     editable: true,
-    align: "center",
+    width: 200,
+    type: "string",
   },
   {
     field: "scores",
     headerName: "自チーム - 相手チーム",
     sortable: true,
     editable: false,
-    align: "center",
+    width: 200,
+    type: "string",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
     },
@@ -38,6 +43,7 @@ const columns: GridColDef[] = [
           sx={{
             color: "text.primary",
             fontWeight: "bold",
+            alignContent: "center",
           }}
         >
           {params.row.score} - {params.row.enemyScore}
@@ -50,7 +56,6 @@ const columns: GridColDef[] = [
     headerName: "結果",
     sortable: true,
     editable: false,
-    align: "center",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
     },
@@ -92,6 +97,19 @@ const columns: GridColDef[] = [
       }
     },
   },
+  {
+    field: "actions",
+    type: "actions",
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<Edit />}
+        label="編集"
+        key={params.id}
+        onClick={() => console.log(params.id)}
+      />,
+      <GridActionsCellItem icon={<Delete />} label="削除" key={params.id} />,
+    ],
+  },
 ]
 
 type Row = {
@@ -110,14 +128,12 @@ export default function ResultTable({ rows }: Props) {
   return (
     <Paper
       sx={{
-        width: "84vw",
-        maxWidth: "1000px",
-        padding: 3,
+        width: "80vw",
         margin: "auto",
         borderRadius: "10px",
       }}
     >
-      <Box sx={{ width: "100%" }}>
+      <Box>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -132,6 +148,8 @@ export default function ResultTable({ rows }: Props) {
           disableRowSelectionOnClick
           sx={{
             border: "none",
+            padding: 3,
+            width: "100%",
           }}
           localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
         />
