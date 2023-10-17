@@ -11,24 +11,29 @@ import {
 } from "@mui/x-data-grid"
 
 const columns: GridColDef[] = [
-  { field: "id", headerName: "ID", width: 90 },
+  { field: "id", headerName: "ID" },
   {
     field: "enemy",
     headerName: "チーム名",
     editable: true,
+    type: "string",
   },
   {
     field: "date",
     headerName: "対戦日",
     editable: true,
     align: "center",
+    width: 200,
+    type: "string",
   },
   {
     field: "scores",
     headerName: "自チーム - 相手チーム",
     sortable: true,
     editable: false,
+    width: 250,
     align: "center",
+    type: "string",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
     },
@@ -38,6 +43,7 @@ const columns: GridColDef[] = [
           sx={{
             color: "text.primary",
             fontWeight: "bold",
+            alignContent: "center",
           }}
         >
           {params.row.score} - {params.row.enemyScore}
@@ -50,7 +56,7 @@ const columns: GridColDef[] = [
     headerName: "結果",
     sortable: true,
     editable: false,
-    align: "center",
+    align: "right",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
     },
@@ -110,14 +116,12 @@ export default function ResultTable({ rows }: Props) {
   return (
     <Paper
       sx={{
-        width: "84vw",
-        maxWidth: "1000px",
-        padding: 3,
+        width: "80vw",
         margin: "auto",
         borderRadius: "10px",
       }}
     >
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{ width: "100%", overflowX: "auto" }}>
         <DataGrid
           rows={rows}
           columns={columns}
@@ -132,6 +136,7 @@ export default function ResultTable({ rows }: Props) {
           disableRowSelectionOnClick
           sx={{
             border: "none",
+            padding: 3,
           }}
           localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
         />
