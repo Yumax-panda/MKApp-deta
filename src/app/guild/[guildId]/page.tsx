@@ -1,6 +1,7 @@
 "use client"
 
 import ResultTable from "@/components/Table/ResultTable"
+import WinLoseHistory from "@/components/WinLoseHistoryGraph/WinLoseHistory"
 import { useGuildDetail } from "@/hooks/useGuildDetail"
 
 export default function GuildPage({ params }: { params: { guildId: string } }) {
@@ -10,5 +11,17 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
     id: index,
     ...result,
   }))
-  return <ResultTable rows={rows} />
+  const history = (guild?.results ?? []).map((result) => ({
+    score: result.score,
+    enemyScore: result.enemyScore,
+  }))
+  return (
+    <div>
+      <h1>{guild?.name}</h1>
+      <h2>Win-Lose History</h2>
+      <WinLoseHistory history={history} />
+      <h2>Results</h2>
+      <ResultTable rows={rows} />
+    </div>
+  )
 }
