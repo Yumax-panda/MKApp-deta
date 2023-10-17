@@ -22,20 +22,31 @@ function WinLoseHistory({ history }: Props) {
     return 0
   })
 
-  // 0で境界線を引く
+  const winColor = "rgba(75,192,192,0.4)"
+  const loseColor = "rgba(255,99,132,0.4)"
+
   const data = {
     labels: history.map((_, i) => i + 1),
     datasets: [
       {
         label: "Wins - Loses",
         data: cumsum(points),
-        fill: false,
+        fill: {
+          target: "origin",
+          above: winColor,
+          below: loseColor,
+        },
         borderColor: "rgba(75,192,192,1)",
       },
     ],
   }
+  const options = {
+    plugins: {
+      legend: { display: false },
+    },
+  }
 
-  return <Line data={data} />
+  return <Line data={data} options={options} />
 }
 
 export default WinLoseHistory

@@ -17,8 +17,6 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
   }))
   return (
     <div>
-      <h1>{guild?.name}</h1>
-      <h2>Win-Lose History</h2>
       <WinLoseHistory history={history} />
       <h2>Results</h2>
       <ResultTable rows={rows} />
