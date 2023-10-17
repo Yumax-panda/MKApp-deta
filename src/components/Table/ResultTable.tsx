@@ -1,3 +1,4 @@
+import { Delete, Edit } from "@mui/icons-material"
 import { Box, Paper, Typography } from "@mui/material"
 import {
   DataGrid,
@@ -7,6 +8,7 @@ import {
   GridValueGetterParams,
   // eslint-disable-next-line
   GridRenderCellParams,
+  GridActionsCellItem,
   jaJP,
 } from "@mui/x-data-grid"
 
@@ -30,7 +32,7 @@ const columns: GridColDef<Row>[] = [
     headerName: "自チーム - 相手チーム",
     sortable: true,
     editable: false,
-    width: 250,
+    width: 200,
     type: "string",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
@@ -94,6 +96,19 @@ const columns: GridColDef<Row>[] = [
         )
       }
     },
+  },
+  {
+    field: "actions",
+    type: "actions",
+    getActions: (params) => [
+      <GridActionsCellItem
+        icon={<Edit />}
+        label="編集"
+        key={params.id}
+        onClick={() => console.log(params.id)}
+      />,
+      <GridActionsCellItem icon={<Delete />} label="削除" key={params.id} />,
+    ],
   },
 ]
 
