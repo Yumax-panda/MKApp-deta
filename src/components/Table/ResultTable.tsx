@@ -22,7 +22,6 @@ const columns: GridColDef[] = [
     field: "date",
     headerName: "対戦日",
     editable: true,
-    align: "center",
     width: 200,
     type: "string",
   },
@@ -32,7 +31,6 @@ const columns: GridColDef[] = [
     sortable: true,
     editable: false,
     width: 250,
-    align: "center",
     type: "string",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
@@ -56,7 +54,6 @@ const columns: GridColDef[] = [
     headerName: "結果",
     sortable: true,
     editable: false,
-    align: "right",
     valueGetter: (params: GridValueGetterParams<any, Row>) => {
       return params.row.score - params.row.enemyScore
     },
