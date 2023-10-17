@@ -1,5 +1,5 @@
 import { Delete, Edit } from "@mui/icons-material"
-import { Box, Paper, Typography } from "@mui/material"
+import { Paper, Typography } from "@mui/material"
 import {
   DataGrid,
   // eslint-disable-next-line
@@ -133,27 +133,25 @@ export default function ResultTable({ rows }: Props) {
         borderRadius: "10px",
       }}
     >
-      <Box>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 25,
-              },
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 25,
             },
-          }}
-          pageSizeOptions={[25, 50, 100]}
-          disableRowSelectionOnClick
-          sx={{
-            border: "none",
-            padding: 3,
-            width: "100%",
-          }}
-          localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
-        />
-      </Box>
+          },
+        }}
+        pageSizeOptions={[25, 50, 100]}
+        disableRowSelectionOnClick
+        sx={{
+          border: "none",
+          padding: 3,
+          width: "100%",
+        }}
+        localeText={jaJP.components.MuiDataGrid.defaultProps.localeText}
+      />
     </Paper>
   )
 }
