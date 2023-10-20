@@ -3,7 +3,7 @@
 import GuildTab from "@/components/GuildTabs/GuildTabs"
 import TabPanel from "@/components/TabPanel/TabPanel"
 import ResultTable from "@/components/Table/ResultTable"
-import WinLoseHistory from "@/components/WinLoseHistoryGraph/WinLoseHistory"
+import WinLoseHistory from "@/components/WinLoseHistory/WinLoseHistory"
 import { useGuildDetail } from "@/hooks/useGuildDetail"
 import { useTabs } from "@/hooks/useTabs"
 
