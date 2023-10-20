@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { Chart as ChartJS, registerables } from "chart.js"
 import { cumsum } from "mathjs"
 import { Line } from "react-chartjs-2"
@@ -12,7 +13,7 @@ type Props = {
   history: Score[]
 }
 
-function WinLoseHistory({ history }: Props) {
+function WinLoseHistoryGraph({ history }: Props) {
   const points = history.map((result) => {
     if (result.score > result.enemyScore) {
       return 1
@@ -46,7 +47,11 @@ function WinLoseHistory({ history }: Props) {
     },
   }
 
-  return <Line data={data} options={options} />
+  return (
+    <Box sx={{ p: 3 }}>
+      <Line data={data} options={options} style={{ width: "100%" }} />
+    </Box>
+  )
 }
 
-export default WinLoseHistory
+export default WinLoseHistoryGraph
