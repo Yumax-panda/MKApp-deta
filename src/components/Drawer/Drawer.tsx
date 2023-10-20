@@ -67,7 +67,7 @@ function Drawer({ window, children }: Props) {
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
+          py: 3,
           width: { sm: `calc(100% - ${drawerWidth})` },
         }}
       >
