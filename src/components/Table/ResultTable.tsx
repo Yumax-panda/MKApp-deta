@@ -126,13 +126,7 @@ type Props = {
 
 export default function ResultTable({ rows }: Props) {
   return (
-    <Paper
-      sx={{
-        width: "80vw",
-        margin: "auto",
-        borderRadius: "10px",
-      }}
-    >
+    <Paper sx={{ borderRadius: "10px" }}>
       <DataGrid
         rows={rows}
         columns={columns}
