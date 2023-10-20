@@ -1,3 +1,4 @@
+import { Box } from "@mui/material"
 import { Chart as ChartJS, registerables } from "chart.js"
 import { cumsum } from "mathjs"
 import { Line } from "react-chartjs-2"
@@ -46,7 +47,11 @@ function WinLoseHistoryGraph({ history }: Props) {
     },
   }
 
-  return <Line data={data} options={options} />
+  return (
+    <Box sx={{ p: 3 }}>
+      <Line data={data} options={options} style={{ width: "100%" }} />
+    </Box>
+  )
 }
 
 export default WinLoseHistoryGraph

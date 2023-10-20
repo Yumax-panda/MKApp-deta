@@ -1,4 +1,5 @@
 import Paper from "../Paper/Paper"
+import WinLoseHistoryDetail from "../WinLoseHistoryDetail/WinLoseHistoryDetail"
 import WinLoseHistoryGraph from "../WinLoseHistoryGraph/WinLoseHistoryGraph"
 
 type Score = {
@@ -13,6 +14,7 @@ type Props = {
 function WinLoseHistory({ history }: Props) {
   return (
     <Paper>
+      <WinLoseHistoryDetail history={history} />
       <WinLoseHistoryGraph history={history} />
     </Paper>
   )
