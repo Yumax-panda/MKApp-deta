@@ -1,5 +1,5 @@
 import { Delete, Edit } from "@mui/icons-material"
-import { Paper, Typography } from "@mui/material"
+import { Typography } from "@mui/material"
 import {
   DataGrid,
   // eslint-disable-next-line
@@ -11,6 +11,7 @@ import {
   GridActionsCellItem,
   jaJP,
 } from "@mui/x-data-grid"
+import Paper from "../Paper/Paper"
 
 const columns: GridColDef<Row>[] = [
   { field: "id", headerName: "ID" },
@@ -126,7 +127,7 @@ type Props = {
 
 export default function ResultTable({ rows }: Props) {
   return (
-    <Paper sx={{ borderRadius: "10px" }}>
+    <Paper>
       <DataGrid
         rows={rows}
         columns={columns}
