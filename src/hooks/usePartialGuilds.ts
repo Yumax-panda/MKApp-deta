@@ -1,17 +1,12 @@
 import { useSession } from "next-auth/react"
 import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
-import type { PartialGuild } from "@/models/guild"
 import type { GuildPayload } from "@/repository/guild"
+import { getGuildImageUrl as url } from "@/utils/url"
 
 type UsePartialGuildsReturn = {
   guilds: GuildPayload[]
   importGuilds: () => void
-}
-
-function url(guild: GuildPayload | PartialGuild): string | null {
-  if (!guild.icon) return null
-  return `https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`
 }
 
 export const usePartialGuilds = (): UsePartialGuildsReturn => {
