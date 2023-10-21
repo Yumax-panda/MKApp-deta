@@ -49,7 +49,6 @@ export class GuildDetailRepository {
 
   async update(params: Update): Promise<GuildDetail> {
     const original = await this.get(params.id)
-    const { id, ...rest } = params
     if (!original) throw new Error("Guild not found")
     await this.db.update(params, params.id)
     const updated = await this.get(params.id)
