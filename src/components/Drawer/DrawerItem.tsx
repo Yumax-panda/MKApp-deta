@@ -27,6 +27,7 @@ function DrawerItem() {
       style={{
         height: "100vh",
         overflowY: "hidden",
+        backgroundColor: "#081627",
       }}
     >
       <Toolbar
@@ -46,10 +47,14 @@ function DrawerItem() {
             href="/"
             style={{
               textDecoration: "none",
-              color: "inherit",
             }}
           >
-            <Typography variant="h6" noWrap component="div">
+            <Typography
+              variant="h6"
+              noWrap
+              component="div"
+              style={{ color: "#fff" }}
+            >
               MKApp-Deta
             </Typography>
           </Link>
@@ -62,6 +67,7 @@ function DrawerItem() {
           overflowX: "hidden",
           overflowY: "scroll",
           height: "80vh",
+          backgroundColor: "#101F33",
         }}
       >
         {guilds.map((guild, index) => (
@@ -74,7 +80,15 @@ function DrawerItem() {
                 color: "inherit",
               }}
             >
-              <ListItemButton selected={pathname.includes(guild.id.toString())}>
+              <ListItemButton
+                selected={pathname.includes(guild.id.toString())}
+                sx={{
+                  color: "rgba(255, 255, 255, 0.7)",
+                  "&:hover, &:focus": {
+                    bgcolor: "rgba(255, 255, 255, 0.08)",
+                  },
+                }}
+              >
                 <ListItemIcon>
                   <Avatar src={guild.icon || "/discord.svg"} />
                 </ListItemIcon>
@@ -85,6 +99,7 @@ function DrawerItem() {
                         whiteSpace: "nowrap",
                         overflow: "hidden",
                         textOverflow: "ellipsis",
+                        color: "#fff",
                       }}
                     >
                       {guild.name}
@@ -97,10 +112,16 @@ function DrawerItem() {
         ))}
       </List>
       <Divider />
-      <Box sx={{ display: "flex", alignItems: "center", paddingTop: "3vh" }}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          paddingTop: "3vh",
+        }}
+      >
         <Button
           startIcon={<Add />}
-          sx={{ margin: "auto" }}
+          sx={{ margin: "auto", fontWeight: "bold" }}
           onClick={importGuilds}
         >
           サーバーを追加
