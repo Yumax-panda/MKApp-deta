@@ -9,6 +9,12 @@ type FormValues = {
   nickname: string
 }
 
+const REFRESHING_MESSAGE = {
+  pending: "サーバー情報を更新しています...",
+  success: "サーバー情報を更新しました",
+  error: "サーバー情報の更新に失敗しました",
+}
+
 export type UseGuildDetailReturn = {
   detail: GuildDetail | null
   refresh: () => Promise<void>
@@ -41,42 +47,28 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
   }, [guildId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const refresh = async () => {
-    await toast.promise(
-      async () => {
-        const data = await fetchGuildDetail(guildId)
-        setDetail(data)
-        setContextGuild(data)
-        defaultReset({ nickname: data?.nickname ?? "" })
-      },
-      {
-        pending: "Refreshing guild detail...",
-        success: "Guild detail refreshed!",
-        error: "Failed to refresh guild detail",
-      },
-    )
+    await toast.promise(async () => {
+      const data = await fetchGuildDetail(guildId)
+      setDetail(data)
+      setContextGuild(data)
+      defaultReset({ nickname: data?.nickname ?? "" })
+    }, REFRESHING_MESSAGE)
   }
 
   const update = handleSubmit(async (data) => {
-    await toast.promise(
-      async () => {
-        const res = await fetch(`/api/guild/${guildId}/detail`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
-        })
-        const json = await res.json()
-        setContextGuild(json)
-        setDetail(json)
-        defaultReset({ nickname: json.nickname })
-      },
-      {
-        pending: "Updating guild detail...",
-        success: "Guild detail updated!",
-        error: "Failed to update guild detail",
-      },
-    )
+    await toast.promise(async () => {
+      const res = await fetch(`/api/guild/${guildId}/detail`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+      const json = await res.json()
+      setContextGuild(json)
+      setDetail(json)
+      defaultReset({ nickname: json.nickname })
+    }, REFRESHING_MESSAGE)
   })
 
   const reset = () => {
