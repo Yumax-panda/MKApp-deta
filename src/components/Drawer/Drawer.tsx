@@ -24,7 +24,14 @@ function Drawer({ window, children }: Props) {
     window !== undefined ? () => window().document.body : undefined
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box
+      sx={{
+        display: "flex",
+        bgcolor: (theme) =>
+          theme.palette.mode === "light" ? "#F8F9FA" : undefined,
+        minHeight: "100vh",
+      }}
+    >
       <Header handleDrawerToggle={handleDrawerToggle} title={title} />
       <Box
         component="nav"
