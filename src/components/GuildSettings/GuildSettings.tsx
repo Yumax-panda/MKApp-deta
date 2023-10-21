@@ -10,12 +10,7 @@ import {
 } from "@mui/material"
 import Paper from "../Paper/Paper"
 import type { UseGuildDetailReturn } from "@/hooks/useGuildDetail"
-import type { GuildDetail } from "@/models/guildDetail"
 import { getGuildImageUrl } from "@/utils/url"
-
-type Props = {
-  guild: GuildDetail
-} & UseGuildDetailReturn
 
 type ButtonProps = {
   variant: "contained" | "outlined"
@@ -39,9 +34,18 @@ const Button = ({ variant, color, label, onClick, type }: ButtonProps) => {
   )
 }
 
-function GuildSettings({ guild, updateDetail, reset, register }: Props) {
+function GuildSettings({
+  detail,
+  update,
+  reset,
+  register,
+}: UseGuildDetailReturn) {
+  if (!detail) {
+    return null
+  }
+
   return (
-    <Paper component="form" onSubmit={updateDetail} id="edit-guild-settings">
+    <Paper component="form" onSubmit={update} id="edit-guild-settings">
       <Grid
         container
         columns={{ xs: 6, md: 12 }}
@@ -55,7 +59,7 @@ function GuildSettings({ guild, updateDetail, reset, register }: Props) {
       >
         <Grid item xs={4}>
           <Avatar
-            src={getGuildImageUrl({ id: guild.id, icon: guild.icon })}
+            src={getGuildImageUrl({ id: detail.id, icon: detail.icon })}
             alt="guild icon"
             sx={{ width: 128, height: 128, margin: "auto" }}
           />
@@ -65,13 +69,13 @@ function GuildSettings({ guild, updateDetail, reset, register }: Props) {
             <TextField
               id="guild_settings_name"
               label="サーバー名"
-              defaultValue={guild.name}
+              defaultValue={detail.name}
               disabled
             />
             <TextField
               id="guild_settings_id"
               label="サーバーID"
-              defaultValue={guild.id}
+              defaultValue={detail.id}
               disabled
             />
             <TextField

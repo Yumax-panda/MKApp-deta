@@ -12,15 +12,8 @@ type UrlParams = {
 
 export async function GET(req: Request, { params }: UrlParams) {
   const { guildId } = params
-  const [results, detail] = await Promise.all([
-    client.result.get(guildId),
-    client.guildDetail.get(guildId),
-  ])
-  if (!detail) {
-    console.error("Guild detail is not found")
-    return NextResponse.json({ error: "Guild detail is not found" })
-  }
-  return NextResponse.json({ results, ...detail })
+  const detail = await client.guildDetail.get(guildId)
+  return NextResponse.json(detail)
 }
 
 export async function PATCH(req: Request, { params }: UrlParams) {
