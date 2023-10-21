@@ -1,16 +1,25 @@
 import { useState, useEffect, useContext } from "react"
+import { useForm } from "react-hook-form"
+import type { UseFormRegister } from "react-hook-form"
+import { toast } from "react-toastify"
 import CurrentGuildContext from "@/context/CurrentGuildContext"
 import type { GuildDetail as DefaultGuildDetail } from "@/models/guildDetail"
 import type { Result } from "@/models/result"
+
+type FormValues = {
+  nickname: string
+}
 
 type GuildDetail = {
   results: Result[]
 } & DefaultGuildDetail
 
-type UseGuildDetailReturn = {
+export type UseGuildDetailReturn = {
   guild: GuildDetail | null
-  isLoading: boolean
   refresh: () => Promise<void>
+  updateDetail: () => Promise<void>
+  reset: () => void
+  register: UseFormRegister<FormValues>
 }
 
 const fetchGuildDetail = async (guildId: string): Promise<GuildDetail> => {
@@ -21,27 +30,62 @@ const fetchGuildDetail = async (guildId: string): Promise<GuildDetail> => {
 
 export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
   const [guild, setGuild] = useState<GuildDetail | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
   const { setGuild: setContextGuild } = useContext(CurrentGuildContext)
+  const { register, handleSubmit, reset: defaultReset } = useForm<FormValues>()
 
   useEffect(() => {
     const _refresh = async () => {
-      setIsLoading(true)
       const data = await fetchGuildDetail(guildId)
       setGuild(data)
       setContextGuild(data)
-      setIsLoading(false)
+      defaultReset({ nickname: data.nickname })
     }
     _refresh()
   }, [guildId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const refresh = async () => {
-    setIsLoading(true)
-    const data = await fetchGuildDetail(guildId)
-    setGuild(data)
-    setContextGuild(data)
-    setIsLoading(false)
+    await toast.promise(
+      async () => {
+        const data = await fetchGuildDetail(guildId)
+        setGuild(data)
+        setContextGuild(data)
+        defaultReset({ nickname: data.nickname })
+      },
+      {
+        pending: "Refreshing guild detail...",
+        success: "Guild detail refreshed!",
+        error: "Failed to refresh guild detail",
+      },
+    )
   }
 
-  return { guild, isLoading, refresh }
+  const updateDetail = handleSubmit(async (data) => {
+    await toast.promise(
+      async () => {
+        const res = await fetch(`/api/guild/${guildId}/detail`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        })
+        const json = await res.json()
+        setContextGuild(json)
+        defaultReset({ nickname: json.nickname })
+      },
+      {
+        pending: "Updating guild detail...",
+        success: "Guild detail updated!",
+        error: "Failed to update guild detail",
+      },
+    )
+  })
+
+  const reset = () => {
+    defaultReset({
+      nickname: guild?.nickname ?? "",
+    })
+  }
+
+  return { guild, refresh, reset, updateDetail, register }
 }

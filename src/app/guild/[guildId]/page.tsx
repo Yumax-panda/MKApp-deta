@@ -11,7 +11,7 @@ import { useTabs } from "@/hooks/useTabs"
 export default function GuildPage({ params }: { params: { guildId: string } }) {
   const { guildId } = params
   const { value, setValue } = useTabs()
-  const { guild } = useGuildDetail(guildId)
+  const { guild, ...rest } = useGuildDetail(guildId)
   const rows = (guild?.results ?? []).map((result, index) => ({
     id: index,
     ...result,
@@ -26,7 +26,7 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
         <WinLoseHistory history={guild?.results ?? []} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {guild && <GuildSettings guild={guild} />}
+        {guild && <GuildSettings guild={guild} {...rest} />}
       </TabPanel>
     </div>
   )
