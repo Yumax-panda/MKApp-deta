@@ -145,38 +145,36 @@ export default function ResultTable({ rows }: Props) {
   }
 
   return (
-    <div>
-      <Paper>
-        <DataGrid
-          rows={rows}
-          columns={columns}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 25,
-              },
+    <Paper>
+      <DataGrid
+        rows={rows}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 25,
             },
-          }}
-          pageSizeOptions={[25, 50, 100]}
-          disableRowSelectionOnClick
-          sx={{
-            border: "none",
-            padding: 3,
-            width: "100%",
-          }}
-          localeText={{
-            ...jaJP.components.MuiDataGrid.defaultProps.localeText,
-            noRowsLabel: "戦績がありません",
-          }}
-          autoHeight
-          slots={{ toolbar: Toolbar }}
-        />
-        <ResultAddModal
-          open={open}
-          onClose={handleClose}
-          onSubmit={handleClose}
-        />
-      </Paper>
-    </div>
+          },
+        }}
+        pageSizeOptions={[25, 50, 100]}
+        disableRowSelectionOnClick
+        sx={{
+          border: "none",
+          padding: 3,
+          width: "100%",
+        }}
+        localeText={{
+          ...jaJP.components.MuiDataGrid.defaultProps.localeText,
+          noRowsLabel: "戦績がありません",
+        }}
+        autoHeight
+        slots={{ toolbar: Toolbar }}
+      />
+      <ResultAddModal
+        open={open}
+        onClose={handleClose}
+        onSubmit={handleClose}
+      />
+    </Paper>
   )
 }
