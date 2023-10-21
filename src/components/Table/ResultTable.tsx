@@ -1,7 +1,8 @@
-import { Delete, Edit } from "@mui/icons-material"
-import { Typography } from "@mui/material"
+import { Add, Delete, Edit } from "@mui/icons-material"
+import { Typography, Box, Button } from "@mui/material"
 import {
   DataGrid,
+  GridToolbarContainer,
   // eslint-disable-next-line
   GridColDef,
   // eslint-disable-next-line
@@ -11,7 +12,9 @@ import {
   GridActionsCellItem,
   jaJP,
 } from "@mui/x-data-grid"
+import { useState } from "react"
 import Paper from "../Paper/Paper"
+import ResultAddModal from "../ResultAddModal/ResultAddModal"
 
 const columns: GridColDef<Row>[] = [
   { field: "id", headerName: "ID" },
@@ -126,31 +129,54 @@ type Props = {
 }
 
 export default function ResultTable({ rows }: Props) {
+  const [open, setOpen] = useState(false)
+  const handleClose = () => setOpen(false)
+  const handleOpen = () => setOpen(true)
+
+  const Toolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <Box sx={{ flexGrow: 1 }} />
+        <Button startIcon={<Add />} onClick={handleOpen}>
+          戦績の追加
+        </Button>
+      </GridToolbarContainer>
+    )
+  }
+
   return (
-    <Paper>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 25,
+    <div>
+      <Paper>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 25,
+              },
             },
-          },
-        }}
-        pageSizeOptions={[25, 50, 100]}
-        disableRowSelectionOnClick
-        sx={{
-          border: "none",
-          padding: 3,
-          width: "100%",
-        }}
-        localeText={{
-          ...jaJP.components.MuiDataGrid.defaultProps.localeText,
-          noRowsLabel: "戦績がありません",
-        }}
-        autoHeight
-      />
-    </Paper>
+          }}
+          pageSizeOptions={[25, 50, 100]}
+          disableRowSelectionOnClick
+          sx={{
+            border: "none",
+            padding: 3,
+            width: "100%",
+          }}
+          localeText={{
+            ...jaJP.components.MuiDataGrid.defaultProps.localeText,
+            noRowsLabel: "戦績がありません",
+          }}
+          autoHeight
+          slots={{ toolbar: Toolbar }}
+        />
+        <ResultAddModal
+          open={open}
+          onClose={handleClose}
+          onSubmit={handleClose}
+        />
+      </Paper>
+    </div>
   )
 }

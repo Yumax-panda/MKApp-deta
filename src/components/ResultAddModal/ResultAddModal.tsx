@@ -57,7 +57,12 @@ function ResultAddModal({ open, onClose, onSubmit }: Props) {
           >
             Cancel
           </Button>
-          <Button variant="contained" color="primary" size="small">
+          <Button
+            variant="contained"
+            color="primary"
+            size="small"
+            type="submit"
+          >
             submit
           </Button>
         </Box>
