@@ -6,16 +6,19 @@ import TabPanel from "@/components/TabPanel/TabPanel"
 import ResultTable from "@/components/Table/ResultTable"
 import WinLoseHistory from "@/components/WinLoseHistory/WinLoseHistory"
 import { useGuildDetail } from "@/hooks/useGuildDetail"
+import { useGuildResults } from "@/hooks/useGuildResults"
 import { useTabs } from "@/hooks/useTabs"
 
 export default function GuildPage({ params }: { params: { guildId: string } }) {
   const { guildId } = params
   const { value, setValue } = useTabs()
-  const { guild, ...rest } = useGuildDetail(guildId)
-  const rows = (guild?.results ?? []).map((result, index) => ({
+  const { results } = useGuildResults(guildId)
+  const manager = useGuildDetail(guildId)
+  const rows = results.map((result, index) => ({
     id: index,
     ...result,
   }))
+
   return (
     <div>
       <GuildTab value={value} setValue={setValue} />
@@ -23,10 +26,10 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
         <ResultTable rows={rows} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <WinLoseHistory history={guild?.results ?? []} />
+        <WinLoseHistory history={rows} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        {guild && <GuildSettings guild={guild} {...rest} />}
+        <GuildSettings {...manager} />
       </TabPanel>
     </div>
   )

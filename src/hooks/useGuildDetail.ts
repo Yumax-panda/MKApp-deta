@@ -3,42 +3,39 @@ import { useForm } from "react-hook-form"
 import type { UseFormRegister } from "react-hook-form"
 import { toast } from "react-toastify"
 import CurrentGuildContext from "@/context/CurrentGuildContext"
-import type { GuildDetail as DefaultGuildDetail } from "@/models/guildDetail"
-import type { Result } from "@/models/result"
+import type { GuildDetail } from "@/models/guildDetail"
 
 type FormValues = {
   nickname: string
 }
 
-type GuildDetail = {
-  results: Result[]
-} & DefaultGuildDetail
-
 export type UseGuildDetailReturn = {
-  guild: GuildDetail | null
+  detail: GuildDetail | null
   refresh: () => Promise<void>
-  updateDetail: () => Promise<void>
+  update: () => Promise<void>
   reset: () => void
   register: UseFormRegister<FormValues>
 }
 
-const fetchGuildDetail = async (guildId: string): Promise<GuildDetail> => {
+const fetchGuildDetail = async (
+  guildId: string,
+): Promise<GuildDetail | null> => {
   const res = await fetch(`/api/guild/${guildId}/detail`)
   const data = await res.json()
   return data
 }
 
 export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
-  const [guild, setGuild] = useState<GuildDetail | null>(null)
+  const [detail, setDetail] = useState<GuildDetail | null>(null)
   const { setGuild: setContextGuild } = useContext(CurrentGuildContext)
   const { register, handleSubmit, reset: defaultReset } = useForm<FormValues>()
 
   useEffect(() => {
     const _refresh = async () => {
       const data = await fetchGuildDetail(guildId)
-      setGuild(data)
+      setDetail(data)
       setContextGuild(data)
-      defaultReset({ nickname: data.nickname })
+      defaultReset({ nickname: data?.nickname ?? "" })
     }
     _refresh()
   }, [guildId]) // eslint-disable-line react-hooks/exhaustive-deps
@@ -47,9 +44,9 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
     await toast.promise(
       async () => {
         const data = await fetchGuildDetail(guildId)
-        setGuild(data)
+        setDetail(data)
         setContextGuild(data)
-        defaultReset({ nickname: data.nickname })
+        defaultReset({ nickname: data?.nickname ?? "" })
       },
       {
         pending: "Refreshing guild detail...",
@@ -59,7 +56,7 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
     )
   }
 
-  const updateDetail = handleSubmit(async (data) => {
+  const update = handleSubmit(async (data) => {
     await toast.promise(
       async () => {
         const res = await fetch(`/api/guild/${guildId}/detail`, {
@@ -71,6 +68,7 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
         })
         const json = await res.json()
         setContextGuild(json)
+        setDetail(json)
         defaultReset({ nickname: json.nickname })
       },
       {
@@ -83,9 +81,9 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
 
   const reset = () => {
     defaultReset({
-      nickname: guild?.nickname ?? "",
+      nickname: detail?.nickname ?? "",
     })
   }
 
-  return { guild, refresh, reset, updateDetail, register }
+  return { detail, refresh, reset, update, register }
 }
