@@ -1,5 +1,6 @@
 "use client"
 
+import GuildSettings from "@/components/GuildSettings/GuildSettings"
 import GuildTab from "@/components/GuildTabs/GuildTabs"
 import TabPanel from "@/components/TabPanel/TabPanel"
 import ResultTable from "@/components/Table/ResultTable"
@@ -25,7 +26,7 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
         <WinLoseHistory history={guild?.results ?? []} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Settings
+        {guild && <GuildSettings guild={guild} />}
       </TabPanel>
     </div>
   )
