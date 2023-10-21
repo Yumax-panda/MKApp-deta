@@ -2,7 +2,6 @@ import type BaseClass from "deta/dist/types/base"
 import type DetaClass from "deta/dist/types/deta"
 import type { GetResponse } from "deta/dist/types/types/base/response"
 import type { DetaAccount } from "@/models/account"
-import { format } from "@/utils/format"
 
 type Key = {
   provider: string
@@ -23,9 +22,9 @@ export class AccountRepository {
   }
 
   async create(account: DetaAccount): Promise<DetaAccount> {
-    const { provider, providerAccountId, expires_at } = account
+    const { provider, providerAccountId } = account
     const key = this.getId({ provider, providerAccountId })
-    await this.db.put(account, key, { expireAt: expires_at })
+    await this.db.put(account, key)
     const created = await this.get({ provider, providerAccountId })
     if (!created) throw new Error("Failed to fetch created account")
     return created
@@ -62,9 +61,7 @@ export class AccountRepository {
 
   private parse(data: GetResponse): DetaAccount | null {
     if (!data) return null
-    const { key, expires_at, __expires, ...rest } = data
-    const account = format<DetaAccount>(rest)
-    account.expires_at = expires_at as number | undefined
-    return account as DetaAccount
+    const { key, expires_at, ...rest } = data
+    return { expires_at, ...rest } as DetaAccount
   }
 }
