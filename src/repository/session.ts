@@ -21,9 +21,7 @@ export class SessionRepository {
   }
 
   async create(session: DetaSession): Promise<DetaSession> {
-    await this.db.put(toPayload(session), session.sessionToken, {
-      expireAt: session.expires,
-    })
+    await this.db.put(toPayload(session), session.sessionToken)
     const created = await this.get(session.sessionToken)
     if (!created) throw new Error("Session not found")
     return created
