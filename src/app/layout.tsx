@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import AuthProvider from "./AuthProvider"
 import CurrentGuildProvider from "./CurrentGuildProvider"
+import LocalizationProvider from "./LocalizationProvider"
 import ThemeProvider from "./ThemeProvider"
 import ToastProvider from "./ToastProvider"
 import Auth from "@/components/Auth/Auth"
@@ -22,20 +23,22 @@ export default function RootLayout({
 }) {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <CurrentGuildProvider>
-          <html lang="ja">
-            <CssBaseline />
-            <body className={inter.className} suppressHydrationWarning>
-              <ToastProvider>
-                <Auth>
-                  <Template>{children}</Template>
-                </Auth>
-              </ToastProvider>
-            </body>
-          </html>
-        </CurrentGuildProvider>
-      </AuthProvider>
+      <LocalizationProvider>
+        <AuthProvider>
+          <CurrentGuildProvider>
+            <html lang="ja">
+              <CssBaseline />
+              <body className={inter.className} suppressHydrationWarning>
+                <ToastProvider>
+                  <Auth>
+                    <Template>{children}</Template>
+                  </Auth>
+                </ToastProvider>
+              </body>
+            </html>
+          </CurrentGuildProvider>
+        </AuthProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   )
 }
