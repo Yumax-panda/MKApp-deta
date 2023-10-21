@@ -4,6 +4,6 @@ type GuildImageProps = {
 }
 
 export function getGuildImageUrl({ id, icon }: GuildImageProps) {
-  if (!icon) return "./discord.svg"
+  if (!icon) return "/discord.svg"
   return `https://cdn.discordapp.com/icons/${id}/${icon}.webp`
 }
