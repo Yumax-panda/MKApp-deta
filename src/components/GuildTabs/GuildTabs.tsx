@@ -13,7 +13,13 @@ function GuildTab({ value, setValue }: Props) {
   }
 
   return (
-    <Tabs value={value} onChange={handleChange} centered variant="fullWidth">
+    <Tabs
+      value={value}
+      onChange={handleChange}
+      centered
+      variant="fullWidth"
+      id="guild-tabs"
+    >
       <Tab icon={<TableRowsOutlined />} label="Results" />
       <Tab icon={<QueryStats />} label="Analysis" />
       <Tab icon={<Settings />} label="Settings" />

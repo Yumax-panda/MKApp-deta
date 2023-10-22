@@ -1,18 +1,37 @@
 import { Modal, Stack, TextField, Button, Box, Typography } from "@mui/material"
 import { DateTimePicker } from "@mui/x-date-pickers"
+import type { Dispatch, SetStateAction } from "react"
+import { Controller } from "react-hook-form"
+import { useResultAddModal } from "@/hooks/useResultAddModal"
+import type { Result } from "@/models/result"
 
 type Props = {
   open: boolean
+  guildId: string
   onClose: () => void
-  onSubmit: () => void
+  results: Result[]
+  setResults: Dispatch<SetStateAction<Result[]>>
 }
 
-function ResultAddModal({ open, onClose, onSubmit }: Props) {
+function ResultAddModal({
+  open,
+  onClose,
+  guildId,
+  results,
+  setResults,
+}: Props) {
+  const { handleSubmit, control } = useResultAddModal({
+    guildId,
+    results,
+    setResults,
+    onClose,
+  })
+
   return (
     <Modal open={open} onClose={onClose}>
       <Stack
         component="form"
-        onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         sx={{
           position: "absolute" as "absolute",
           top: "50%",
@@ -26,27 +45,59 @@ function ResultAddModal({ open, onClose, onSubmit }: Props) {
           borderRadius: 5,
         }}
         spacing={2}
+        id="result-add-form"
       >
         <Typography variant="h6">戦績の追加</Typography>
-        <TextField
-          id="result-add-enemy-name"
-          label="相手チーム"
-          defaultValue="enemy"
-          variant="standard"
+        <Controller
+          name="enemy"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <TextField
+              id="result-add-enemy-name"
+              label="相手チーム"
+              variant="standard"
+              required
+              {...field}
+            />
+          )}
         />
-        <TextField
-          id="result-add-score"
-          label="自チームのスコア"
-          defaultValue="score"
-          variant="standard"
+        <Controller
+          name="score"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <TextField
+              type="number"
+              id="result-add-score"
+              label="自チームの得点"
+              variant="standard"
+              required
+              {...field}
+            />
+          )}
         />
-        <TextField
-          id="result-add-enemy-score"
-          label="相手チームのスコア"
-          defaultValue="enemyScore"
-          variant="standard"
+        <Controller
+          name="enemyScore"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <TextField
+              type="number"
+              id="result-add-enemy-score"
+              label="相手チームの得点"
+              variant="standard"
+              required
+              {...field}
+            />
+          )}
         />
-        <DateTimePicker label="日時" />
+        <Controller
+          name="date"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => <DateTimePicker label="対戦日" {...field} />}
+        />
         <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Button
             onClick={onClose}
@@ -54,6 +105,8 @@ function ResultAddModal({ open, onClose, onSubmit }: Props) {
             color="error"
             size="small"
             sx={{ mr: 1 }}
+            type="button"
+            id="result-add-cancel-button"
           >
             Cancel
           </Button>
@@ -62,6 +115,7 @@ function ResultAddModal({ open, onClose, onSubmit }: Props) {
             color="primary"
             size="small"
             type="submit"
+            id="result-add-submit-button"
           >
             submit
           </Button>
