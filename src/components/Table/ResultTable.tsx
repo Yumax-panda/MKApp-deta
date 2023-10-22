@@ -126,9 +126,10 @@ type Row = {
 
 type Props = {
   rows: Row[]
+  guildId: string
 }
 
-export default function ResultTable({ rows }: Props) {
+export default function ResultTable({ rows, guildId }: Props) {
   const [open, setOpen] = useState(false)
   const handleClose = () => setOpen(false)
   const handleOpen = () => setOpen(true)
@@ -137,7 +138,7 @@ export default function ResultTable({ rows }: Props) {
     return (
       <GridToolbarContainer>
         <Box sx={{ flexGrow: 1 }} />
-        <Button startIcon={<Add />} onClick={handleOpen}>
+        <Button startIcon={<Add />} onClick={handleOpen} type="button">
           戦績の追加
         </Button>
       </GridToolbarContainer>
@@ -171,6 +172,7 @@ export default function ResultTable({ rows }: Props) {
         slots={{ toolbar: Toolbar }}
       />
       <ResultAddModal
+        guildId={guildId}
         open={open}
         onClose={handleClose}
         onSubmit={handleClose}
