@@ -23,7 +23,7 @@ export default function GuildPage({ params }: { params: { guildId: string } }) {
     <div>
       <GuildTab value={value} setValue={setValue} />
       <TabPanel value={value} index={0}>
-        <ResultTable rows={rows} />
+        <ResultTable rows={rows} guildId={params.guildId} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <WinLoseHistory history={rows} />
