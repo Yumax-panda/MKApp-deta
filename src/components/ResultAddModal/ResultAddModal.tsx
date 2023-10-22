@@ -1,17 +1,32 @@
 import { Modal, Stack, TextField, Button, Box, Typography } from "@mui/material"
 import { DateTimePicker } from "@mui/x-date-pickers"
+import type { Dispatch, SetStateAction } from "react"
 import { Controller } from "react-hook-form"
 import { useResultAddModal } from "@/hooks/useResultAddModal"
+import type { Result } from "@/models/result"
 
 type Props = {
   open: boolean
   guildId: string
   onClose: () => void
-  onSubmit: () => void
+  results: Result[]
+  setResults: Dispatch<SetStateAction<Result[]>>
 }
 
-function ResultAddModal({ open, onClose, guildId }: Props) {
-  const { handleSubmit, control } = useResultAddModal(guildId)
+function ResultAddModal({
+  open,
+  onClose,
+  guildId,
+  results,
+  setResults,
+}: Props) {
+  const { handleSubmit, control } = useResultAddModal({
+    guildId,
+    results,
+    setResults,
+    onClose,
+  })
+
   return (
     <Modal open={open} onClose={onClose}>
       <Stack
@@ -42,6 +57,7 @@ function ResultAddModal({ open, onClose, guildId }: Props) {
               id="result-add-enemy-name"
               label="相手チーム"
               variant="standard"
+              required
               {...field}
             />
           )}
@@ -56,6 +72,7 @@ function ResultAddModal({ open, onClose, guildId }: Props) {
               id="result-add-score"
               label="自チームの得点"
               variant="standard"
+              required
               {...field}
             />
           )}
@@ -70,6 +87,7 @@ function ResultAddModal({ open, onClose, guildId }: Props) {
               id="result-add-enemy-score"
               label="相手チームの得点"
               variant="standard"
+              required
               {...field}
             />
           )}
