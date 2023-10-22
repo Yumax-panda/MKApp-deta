@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import type { Result } from "@/models/result"
 
 export type UseGuildResultsReturn = {
   results: Result[]
+  setResults: Dispatch<SetStateAction<Result[]>>
 }
 
 export const useGuildResults = (guildId: string): UseGuildResultsReturn => {
@@ -19,5 +21,6 @@ export const useGuildResults = (guildId: string): UseGuildResultsReturn => {
 
   return {
     results,
+    setResults,
   }
 }

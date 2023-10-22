@@ -13,8 +13,11 @@ import {
   jaJP,
 } from "@mui/x-data-grid"
 import { useState } from "react"
+import type { Dispatch, SetStateAction } from "react"
 import Paper from "../Paper/Paper"
 import ResultAddModal from "../ResultAddModal/ResultAddModal"
+import { useModal } from "@/hooks/useModal"
+import type { Result } from "@/models/result"
 
 const columns: GridColDef<Row>[] = [
   { field: "id", headerName: "ID" },
@@ -125,14 +128,13 @@ type Row = {
 }
 
 type Props = {
-  rows: Row[]
+  results: Result[]
+  setResults: Dispatch<SetStateAction<Result[]>>
   guildId: string
 }
 
-export default function ResultTable({ rows, guildId }: Props) {
-  const [open, setOpen] = useState(false)
-  const handleClose = () => setOpen(false)
-  const handleOpen = () => setOpen(true)
+export default function ResultTable({ results, guildId, setResults }: Props) {
+  const { open, handleOpen, handleClose } = useModal()
 
   const Toolbar = () => {
     return (
@@ -144,6 +146,11 @@ export default function ResultTable({ rows, guildId }: Props) {
       </GridToolbarContainer>
     )
   }
+
+  const rows = results.map((result, index) => ({
+    id: index,
+    ...result,
+  })) as Row[]
 
   return (
     <Paper>
@@ -175,7 +182,8 @@ export default function ResultTable({ rows, guildId }: Props) {
         guildId={guildId}
         open={open}
         onClose={handleClose}
-        onSubmit={handleClose}
+        results={results}
+        setResults={setResults}
       />
     </Paper>
   )

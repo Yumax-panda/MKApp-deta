@@ -12,21 +12,21 @@ import { useTabs } from "@/hooks/useTabs"
 export default function GuildPage({ params }: { params: { guildId: string } }) {
   const { guildId } = params
   const { value, setValue } = useTabs()
-  const { results } = useGuildResults(guildId)
+  const { results, setResults } = useGuildResults(guildId)
   const manager = useGuildDetail(guildId)
-  const rows = results.map((result, index) => ({
-    id: index,
-    ...result,
-  }))
 
   return (
     <div>
       <GuildTab value={value} setValue={setValue} />
       <TabPanel value={value} index={0}>
-        <ResultTable rows={rows} guildId={params.guildId} />
+        <ResultTable
+          results={results}
+          guildId={params.guildId}
+          setResults={setResults}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <WinLoseHistory history={rows} />
+        <WinLoseHistory history={results} />
       </TabPanel>
       <TabPanel value={value} index={2}>
         <GuildSettings {...manager} />
