@@ -27,6 +27,7 @@ function ResultEditModal({
     resultId,
     results,
     setResults,
+    open,
   })
 
   return (
@@ -49,7 +50,7 @@ function ResultEditModal({
         spacing={2}
         id="result-add-form"
       >
-        <Typography variant="h6">戦績の追加</Typography>
+        <Typography variant="h6">戦績の編集</Typography>
         <Controller
           name="enemy"
           control={control}

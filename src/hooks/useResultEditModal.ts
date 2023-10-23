@@ -13,6 +13,7 @@ type FormValues = {
 }
 
 type Props = {
+  open: boolean
   guildId: string
   results: Result[]
   resultId: number
@@ -25,6 +26,7 @@ type UseResultEditModalReturn = {
 }
 
 export const useResultEditModal = ({
+  open,
   guildId,
   results,
   resultId,
@@ -76,7 +78,6 @@ export const useResultEditModal = ({
     setValue("enemyScore", enemyScore)
   }, [score, setValue])
 
-  // FIXME: 同じ戦績の2回目以降も初期化させる
   useEffect(() => {
     if (!results[resultId]) return
     const selected = results[resultId]
@@ -85,7 +86,7 @@ export const useResultEditModal = ({
       date: dayjs(selected.date),
     }
     reset(formValues)
-  }, [results, resultId, reset])
+  }, [results, resultId, reset, open])
 
   return {
     control,
