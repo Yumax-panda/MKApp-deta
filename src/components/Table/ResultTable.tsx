@@ -1,5 +1,4 @@
-import { parse } from "path"
-import { Add, Delete, Edit } from "@mui/icons-material"
+import { Add, Delete, Edit, Refresh } from "@mui/icons-material"
 import { Typography, Box, Button } from "@mui/material"
 import {
   DataGrid,
@@ -15,6 +14,7 @@ import {
 } from "@mui/x-data-grid"
 import { useState } from "react"
 import type { Dispatch, SetStateAction } from "react"
+import { toast } from "react-toastify"
 import Paper from "../Paper/Paper"
 import ResultAddModal from "../ResultAddModal/ResultAddModal"
 import ResultDeleteModal from "../ResultDeleteModal/ResultDeleteModal"
@@ -153,12 +153,38 @@ export default function ResultTable({ results, guildId, setResults }: Props) {
     },
   ]
 
+  const refresh = () => {
+    toast
+      .promise(
+        async () => {
+          const results = await fetch(`/api/guilds/${guildId}/results`).then(
+            (res) => res.json(),
+          )
+          setResults(results)
+        },
+        {
+          pending: "更新中...",
+          success: "更新しました",
+          error: {
+            render: ({ data }) => {
+              console.error(data)
+              return "更新に失敗しました"
+            },
+          },
+        },
+      )
+      .catch(() => {})
+  }
+
   const Toolbar = () => {
     return (
       <GridToolbarContainer>
         <Box sx={{ flexGrow: 1 }} />
         <Button startIcon={<Add />} onClick={addModal.handleOpen} type="button">
           戦績の追加
+        </Button>
+        <Button startIcon={<Refresh />} onClick={refresh} type="button">
+          更新
         </Button>
       </GridToolbarContainer>
     )
