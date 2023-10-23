@@ -22,7 +22,8 @@ export const useResultDeleteModal = ({
   onClose,
 }: Props): UseResultDeleteModalReturn => {
   const innerOnDelete = async () => {
-    const newResults = results.filter((r) => !isSame(r, results[resultId]))
+    const selected = results[resultId]
+    const newResults = results.filter((r) => !isSame(r, selected))
     if (newResults.length === results.length)
       throw new Error("該当する戦績が見つかりません")
     const res = await fetch(`/api/guilds/${guildId}/results`, {
