@@ -17,6 +17,7 @@ type Props = {
   guildId: string
   results: Result[]
   resultId: number
+  onClose: () => void
   setResults: (results: Result[]) => void
 }
 
@@ -31,6 +32,7 @@ export const useResultEditModal = ({
   results,
   resultId,
   setResults,
+  onClose,
 }: Props): UseResultEditModalReturn => {
   const result = results[resultId]
   const original = {
@@ -49,17 +51,35 @@ export const useResultEditModal = ({
   })
 
   const innerOnSubmit = async (data: FormValues) => {
-    console.log(data)
+    const newResult = {
+      ...data,
+      date: data.date.format("YYYY-MM-DD HH:mm:ss"),
+    }
+
+    const payload = results
+      .map((result, index) => (index === resultId ? newResult : result))
+      .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
+
+    const res = await fetch(`/api/guild/${guildId}/results`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    }).then((res) => res.json())
+    setResults(res)
+    onClose()
   }
 
   const onSubmit = (data: FormValues) => {
     return toast
       .promise(innerOnSubmit(data), {
         pending: "送信中...",
-        success: "戦績を追加しました",
+        success: "戦績を編集しました",
         error: {
           render({ data }) {
             if (data instanceof Error) {
+              console.error("edit error", data)
               return data.message
             }
             return "エラーが発生しました"
