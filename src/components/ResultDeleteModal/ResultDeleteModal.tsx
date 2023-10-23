@@ -1,6 +1,6 @@
 import { Modal, Stack, Button, Box, Typography } from "@mui/material"
 import type { Dispatch, SetStateAction } from "react"
-import { useResultAddModal } from "@/hooks/useResultAddModal"
+import { useResultDeleteModal } from "@/hooks/useResultDeleteModal"
 import type { Result } from "@/models/result"
 
 type Props = {
@@ -27,8 +27,9 @@ function ResultDeleteModal({
   results,
   setResults,
 }: Props) {
-  const { handleSubmit } = useResultAddModal({
+  const { onDelete } = useResultDeleteModal({
     guildId,
+    resultId,
     results,
     setResults,
     onClose,
@@ -78,7 +79,7 @@ function ResultDeleteModal({
             color="error"
             size="small"
             type="button"
-            onClick={onClose}
+            onClick={onDelete}
           >
             Delete
           </Button>
