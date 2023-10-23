@@ -17,6 +17,7 @@ import { useState } from "react"
 import type { Dispatch, SetStateAction } from "react"
 import Paper from "../Paper/Paper"
 import ResultAddModal from "../ResultAddModal/ResultAddModal"
+import ResultDeleteModal from "../ResultDeleteModal/ResultDeleteModal"
 import ResultEditModal from "../ResultEditModal/ResultEditModal"
 import { useModal } from "@/hooks/useModal"
 import type { Result } from "@/models/result"
@@ -209,6 +210,16 @@ export default function ResultTable({ results, guildId, setResults }: Props) {
           setResults={setResults}
           open={editModal.open}
           onClose={editModal.handleClose}
+        />
+      )}
+      {selected !== null && results[selected] && (
+        <ResultDeleteModal
+          guildId={guildId}
+          resultId={selected}
+          results={results}
+          setResults={setResults}
+          open={deleteModal.open}
+          onClose={deleteModal.handleClose}
         />
       )}
     </Paper>
