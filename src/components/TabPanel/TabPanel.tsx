@@ -1,5 +1,5 @@
-import { Box } from "@mui/material"
 import React from "react"
+import SectionContainer from "../SectionContainer/SectionContainer"
 
 type Props = {
   children?: React.ReactNode
@@ -17,20 +17,7 @@ function TabPanel(props: Props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box
-          sx={{
-            py: 3,
-            width: {
-              xs: "90vw",
-              sm: "80vw",
-            },
-            margin: "auto",
-          }}
-        >
-          {children}
-        </Box>
-      )}
+      {value === index && <SectionContainer>{children}</SectionContainer>}
     </div>
   )
 }
