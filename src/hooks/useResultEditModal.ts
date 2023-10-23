@@ -1,9 +1,10 @@
 import dayjs from "dayjs"
-import { use, useEffect } from "react"
+import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import type { Control } from "react-hook-form"
 import { toast } from "react-toastify"
 import type { Result } from "@/models/result"
+import { isSame } from "@/models/result"
 
 type FormValues = {
   enemy: string
@@ -56,9 +57,22 @@ export const useResultEditModal = ({
       date: data.date.format("YYYY-MM-DD HH:mm:ss"),
     }
 
-    const payload = results
-      .map((result, index) => (index === resultId ? newResult : result))
+    const originalResults = await fetch(`/api/guilds/${guildId}/results`).then(
+      (res) => res.json() as Promise<Result[]>,
+    )
+
+    const original = results[resultId]
+    const payload = originalResults
+      // this operation looks redundant,
+      // but it makes sure not to change wrong element due to editing one by other user simultaneously
+      .map((result) => (isSame(result, original) ? newResult : result))
       .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
+
+    if (!payload.some((result) => isSame(result, newResult))) {
+      throw new Error(
+        "戦績が見つかりません。他のユーザーが編集した可能性があります。データを更新して再度お試しください。",
+      )
+    }
 
     const res = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",

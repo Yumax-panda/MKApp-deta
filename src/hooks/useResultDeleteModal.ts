@@ -22,10 +22,11 @@ export const useResultDeleteModal = ({
   onClose,
 }: Props): UseResultDeleteModalReturn => {
   const innerOnDelete = async () => {
+    const updates = await fetch(`/api/guilds/${guildId}/results`).then(
+      (res) => res.json() as Promise<Result[]>,
+    )
     const selected = results[resultId]
-    const newResults = results.filter((r) => !isSame(r, selected))
-    if (newResults.length === results.length)
-      throw new Error("該当する戦績が見つかりません")
+    const newResults = updates.filter((r) => !isSame(r, selected))
     const res = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",
       body: JSON.stringify(newResults),
@@ -36,19 +37,11 @@ export const useResultDeleteModal = ({
   }
 
   const onDelete = async () => {
-    return toast
-      .promise(innerOnDelete(), {
-        pending: "削除しています",
-        success: "削除しました",
-        error: {
-          render: ({ data }) => {
-            if (data instanceof Error) return data.message
-            console.error("delete error", data)
-            return "削除に失敗しました"
-          },
-        },
-      })
-      .catch(() => {})
+    return toast.promise(innerOnDelete(), {
+      pending: "削除しています",
+      success: "削除しました",
+      error: "削除に失敗しました",
+    })
   }
 
   return { onDelete }
