@@ -18,3 +18,7 @@ export type DetaAccount = {
 export type Account = {
   user: User
 } & DetaAccount
+
+export type DiscordAccount = {
+  linkedId: string
+} & DetaAccount

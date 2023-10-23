@@ -2,6 +2,7 @@ import { Deta } from "deta"
 import { AccountRepository } from "./account"
 import { GuildRepository } from "./guild"
 import { GuildDetailRepository } from "./guildDetail"
+import { LinkedIdRepository } from "./linkedId"
 import { ResultRepository } from "./result"
 import { SessionRepository } from "./session"
 import { UserRepository } from "./user"
@@ -13,6 +14,7 @@ export interface DetaClientType {
   guild: GuildRepository
   guildDetail: GuildDetailRepository
   result: ResultRepository
+  linkedId: LinkedIdRepository
 }
 
 export class DetaClient implements DetaClientType {
@@ -22,6 +24,7 @@ export class DetaClient implements DetaClientType {
   guild: GuildRepository
   guildDetail: GuildDetailRepository
   result: ResultRepository
+  linkedId: LinkedIdRepository
 
   constructor() {
     const Authtoken = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY
@@ -35,5 +38,6 @@ export class DetaClient implements DetaClientType {
     this.guild = new GuildRepository(deta)
     this.guildDetail = new GuildDetailRepository(deta)
     this.result = new ResultRepository(botDB)
+    this.linkedId = new LinkedIdRepository(botDB)
   }
 }
