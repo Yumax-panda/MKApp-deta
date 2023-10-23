@@ -60,7 +60,7 @@ export const useResultEditModal = ({
       .map((result, index) => (index === resultId ? newResult : result))
       .sort((a, b) => (dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1))
 
-    const res = await fetch(`/api/guild/${guildId}/results`, {
+    const res = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

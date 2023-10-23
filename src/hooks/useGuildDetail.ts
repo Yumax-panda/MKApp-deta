@@ -26,7 +26,7 @@ export type UseGuildDetailReturn = {
 const fetchGuildDetail = async (
   guildId: string,
 ): Promise<GuildDetail | null> => {
-  const res = await fetch(`/api/guild/${guildId}/detail`)
+  const res = await fetch(`/api/guilds/${guildId}/details`)
   const data = await res.json()
   return data
 }
@@ -57,7 +57,7 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
 
   const update = handleSubmit(async (data) => {
     await toast.promise(async () => {
-      const res = await fetch(`/api/guild/${guildId}/detail`, {
+      const res = await fetch(`/api/guilds/${guildId}/details`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
