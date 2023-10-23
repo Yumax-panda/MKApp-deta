@@ -28,6 +28,7 @@ function ResultEditModal({
     results,
     setResults,
     open,
+    onClose,
   })
 
   return (
