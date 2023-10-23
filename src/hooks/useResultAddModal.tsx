@@ -69,7 +69,7 @@ export const useResultAddModal = ({
     const payload = [result, ...results].sort((a, b) =>
       dayjs(a.date).isBefore(dayjs(b.date)) ? -1 : 1,
     )
-    const newResults = await fetch(`/api/guild/${guildId}/results`, {
+    const newResults = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
