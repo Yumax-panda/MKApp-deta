@@ -1,6 +1,7 @@
 "use client"
 
 import { useSession } from "next-auth/react"
+import LoungeSection from "@/components/LoungeSection/LoungeSection"
 import UserProfileSection from "@/components/UserProfileSection/UserProfileSection"
 
 export default function ProfilePage() {
@@ -8,5 +9,10 @@ export default function ProfilePage() {
 
   if (!session) return null
 
-  return <UserProfileSection user={session.user} />
+  return (
+    <div>
+      <UserProfileSection user={session.user} />
+      <LoungeSection user={session.user} />
+    </div>
+  )
 }
