@@ -1,7 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth"
 import type { AdapterUser } from "next-auth/adapters"
 
-import { PartialGuild } from "./discord"
+import type { PartialGuild } from "@/models/guild"
 
 declare module "next-auth" {
   interface Session {
