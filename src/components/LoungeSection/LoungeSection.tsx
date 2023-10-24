@@ -76,7 +76,6 @@ function LoungeSection({ user }: Props) {
             label="Partner Average Score"
             value={player.partnerAverage?.toFixed(1)}
           />
-          <Field label="Country" value={player.countryCode} />
         </Grid>
       </Paper>
     </SectionContainer>
