@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import AuthProvider from "./AuthProvider"
 import CurrentGuildProvider from "./CurrentGuildProvider"
+import GoogleAnalytics from "./GoogleAnalytics"
 import LocalizationProvider from "./LocalizationProvider"
 import ThemeProvider from "./ThemeProvider"
 import ToastProvider from "./ToastProvider"
@@ -27,6 +28,9 @@ export default function RootLayout({
         <AuthProvider>
           <CurrentGuildProvider>
             <html lang="ja">
+              <head>
+                <GoogleAnalytics />
+              </head>
               <CssBaseline />
               <body className={inter.className} suppressHydrationWarning>
                 <ToastProvider>
