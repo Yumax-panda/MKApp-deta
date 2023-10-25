@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@types/deta": "^1.0.0",
+    "@types/gtag.js": "^0.0.17",
     "encoding": "^0.1.13",
     "eslint-config-prettier": "^9.0.0",
     "husky": "^8.0.3",
