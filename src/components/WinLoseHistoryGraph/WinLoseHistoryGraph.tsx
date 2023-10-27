@@ -45,6 +45,7 @@ function WinLoseHistoryGraph({ history }: Props) {
     plugins: {
       legend: { display: false },
     },
+    responsive: true,
   }
 
   return (
