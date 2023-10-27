@@ -37,16 +37,6 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       <Divider />
       <MenuItem
         onClick={() => {
-          signOut()
-        }}
-      >
-        <ListItemIcon>
-          <Logout fontSize="small" />
-        </ListItemIcon>
-        Logout
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
           router.push("/policy")
         }}
       >
@@ -54,6 +44,16 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
           <Policy fontSize="small" />
         </ListItemIcon>
         Policy
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          signOut()
+        }}
+      >
+        <ListItemIcon>
+          <Logout fontSize="small" />
+        </ListItemIcon>
+        Logout
       </MenuItem>
     </Menu>
   )
