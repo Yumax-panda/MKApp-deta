@@ -13,6 +13,7 @@ export function Section({ title, children }: Props) {
           borderBottom: "1px solid",
           fontSize: "1.4rem",
           fontWeight: "bold",
+          pl: 2,
         }}
       >
         {title}
