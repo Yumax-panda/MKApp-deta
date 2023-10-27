@@ -1,4 +1,4 @@
-import { Logout } from "@mui/icons-material"
+import { Logout, Policy } from "@mui/icons-material"
 import { Avatar, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material"
 import { useRouter } from "next/navigation"
 import type { AdapterUser } from "next-auth/adapters"
@@ -35,6 +35,16 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
         <Avatar src={user?.image || ""} /> Profile
       </MenuItem>
       <Divider />
+      <MenuItem
+        onClick={() => {
+          router.push("/policy")
+        }}
+      >
+        <ListItemIcon>
+          <Policy fontSize="small" />
+        </ListItemIcon>
+        Policy
+      </MenuItem>
       <MenuItem
         onClick={() => {
           signOut()

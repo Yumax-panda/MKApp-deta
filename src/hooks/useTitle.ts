@@ -3,7 +3,10 @@ import { useContext, useState, useEffect } from "react"
 import CurrentGuildContext from "@/context/CurrentGuildContext"
 
 type PathMapping = Record<string, string>
-const __pathMappings__: PathMapping[] = [{ "^/guild": "Server info" }]
+const __pathMappings__: PathMapping[] = [
+  { "^/guild": "Server info" },
+  { "^/policy": "Policy" },
+]
 
 function getTitle(pathname: string): string {
   for (const mapping of __pathMappings__) {
