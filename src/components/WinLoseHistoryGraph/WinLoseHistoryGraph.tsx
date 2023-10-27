@@ -37,6 +37,7 @@ function WinLoseHistoryGraph({ history }: Props) {
           above: winColor,
           below: loseColor,
         },
+        borderWidth: 1,
         borderColor: "rgba(75,192,192,1)",
       },
     ],
@@ -45,6 +46,7 @@ function WinLoseHistoryGraph({ history }: Props) {
     plugins: {
       legend: { display: false },
     },
+    radius: 0,
     responsive: true,
   }
 
