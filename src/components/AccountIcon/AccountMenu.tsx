@@ -47,13 +47,13 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          router.push("/privacy")
+          router.push("/policy")
         }}
       >
         <ListItemIcon>
           <Policy fontSize="small" />
         </ListItemIcon>
-        Privacy Policy
+        Policy
       </MenuItem>
     </Menu>
   )
