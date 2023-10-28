@@ -32,7 +32,10 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
           router.push("/profile")
         }}
       >
-        <Avatar src={user?.image || ""} /> Profile
+        <ListItemIcon>
+          <Avatar src={user?.image || ""} sx={{ height: 24, width: 24 }} />{" "}
+        </ListItemIcon>
+        Profile
       </MenuItem>
       <Divider />
       <MenuItem
