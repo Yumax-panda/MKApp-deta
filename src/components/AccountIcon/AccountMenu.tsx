@@ -33,7 +33,7 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
         }}
       >
         <ListItemIcon>
-          <Avatar src={user?.image || ""} sx={{ height: 24, width: 24 }} />{" "}
+          <Avatar src={user?.image || ""} sx={{ height: 24, width: 24 }} />
         </ListItemIcon>
         Profile
       </MenuItem>
