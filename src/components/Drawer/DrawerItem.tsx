@@ -55,7 +55,7 @@ function DrawerItem() {
               component="div"
               style={{ color: "#fff" }}
             >
-              MKApp-Deta
+              MK8dx for Web
             </Typography>
           </Link>
         </Box>
