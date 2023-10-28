@@ -1,9 +1,9 @@
 import { Container } from "@mui/material"
 import { Section, TextField, List } from "@/components/Section/Terms/Section"
 
-export default function PolicyPage() {
+const PrivacyPolicy = () => {
   return (
-    <Container maxWidth="lg">
+    <div>
       <Section title="プライバシーポリシー">
         <TextField
           content="本サービスがお預かりする個人情報に対し、個人情報の社会的重要性を鑑み以下の方針に基づき個人の情報の保護に努めます。
@@ -37,6 +37,14 @@ export default function PolicyPage() {
         />
         <TextField content="本サービスはユーザー情報を第三者に一切提供しません。また、ユーザー本人から削除の希望があった場合、照合後ただちに削除いたします。" />
       </Section>
+    </div>
+  )
+}
+
+export default function PolicyPage() {
+  return (
+    <Container maxWidth="lg">
+      <PrivacyPolicy />
     </Container>
   )
 }
