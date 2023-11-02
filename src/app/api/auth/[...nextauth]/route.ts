@@ -6,7 +6,7 @@ import { DetaClient } from "@/repository/deta"
 
 const client = new DetaClient()
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
   providers: [
     DiscordProvider({

@@ -1,3 +1,5 @@
+"use client"
+
 import { Grid, Stack, Typography, Avatar } from "@mui/material"
 import type { AdapterUser } from "next-auth/adapters"
 import Paper from "../Paper/Paper"

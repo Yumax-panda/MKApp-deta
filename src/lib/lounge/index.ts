@@ -40,7 +40,7 @@ type GetPlayerDetailsProps = {
 
 async function get<T>(path: string): Promise<T | null> {
   const url = `${baseUrl}/${path}`
-  const res = await fetch(url)
+  const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) return null
   return (await res.json()) as T
 }
