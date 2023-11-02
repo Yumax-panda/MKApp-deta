@@ -1,3 +1,5 @@
+"use client"
+
 import { Grid, Stack, Typography } from "@mui/material"
 import type { TypographyProps } from "@mui/material"
 import Paper from "../Paper/Paper"
