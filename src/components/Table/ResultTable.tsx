@@ -157,9 +157,12 @@ export default function ResultTable({ results, guildId, setResults }: Props) {
     toast
       .promise(
         async () => {
-          const results = await fetch(`/api/guilds/${guildId}/results`).then(
-            (res) => res.json(),
-          )
+          const results = await fetch(`/api/guilds/${guildId}/results`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
+            },
+          }).then((res) => res.json())
           setResults(results)
         },
         {

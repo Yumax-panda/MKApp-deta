@@ -57,9 +57,11 @@ export const useResultEditModal = ({
       date: data.date.format("YYYY-MM-DD HH:mm:ss"),
     }
 
-    const originalResults = await fetch(`/api/guilds/${guildId}/results`).then(
-      (res) => res.json() as Promise<Result[]>,
-    )
+    const originalResults = await fetch(`/api/guilds/${guildId}/results`, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
+      },
+    }).then((res) => res.json() as Promise<Result[]>)
 
     const original = results[resultId]
     const payload = originalResults
@@ -78,6 +80,7 @@ export const useResultEditModal = ({
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
       },
       body: JSON.stringify(payload),
     }).then((res) => res.json())
