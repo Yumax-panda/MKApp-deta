@@ -73,6 +73,7 @@ export const useResultAddModal = ({
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
       },
       body: JSON.stringify(payload),
     }).then((res) => res.json())
