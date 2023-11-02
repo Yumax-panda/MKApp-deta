@@ -1,12 +1,11 @@
-import { Grid, Stack, Typography, Box } from "@mui/material"
+import { Grid, Stack, Typography } from "@mui/material"
 import type { TypographyProps } from "@mui/material"
-import type { AdapterUser } from "next-auth/adapters"
 import Paper from "../Paper/Paper"
 import SectionContainer from "../SectionContainer/SectionContainer"
-import { useLounge } from "@/hooks/useLounge"
+import type { PlayerDetails } from "@/lib/lounge"
 
 type Props = {
-  user: AdapterUser
+  player: PlayerDetails
 }
 
 type FieldProps = {
@@ -35,11 +34,7 @@ const Field = ({ label, value, sx }: FieldProps) => (
   </Grid>
 )
 
-function LoungeSection({ user }: Props) {
-  const { player, discordAccount } = useLounge(user)
-
-  if (!player || !discordAccount) return null
-
+function LoungeSection({ player }: Props) {
   // TODO: Add Field
   return (
     <SectionContainer>
