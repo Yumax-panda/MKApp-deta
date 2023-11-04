@@ -1,11 +1,7 @@
-import GuildDetail from "@/components/GuildDetail/GuildDetail"
+import Guild from "@/components/Guild/Guild"
 
-export default function GuildDetailPage({
-  params,
-}: {
-  params: { guildId: string }
-}) {
-  return <GuildDetail params={params} />
+export default function GuildPage({ params }: { params: { guildId: string } }) {
+  return <Guild params={params} />
 }
 
 export const fetchCache = "force-no-store"

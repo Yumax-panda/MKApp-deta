@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation"
-import SectionContainer from "../SectionContainer/SectionContainer"
+import SectionContainer from "../Section/SectionContainer/SectionContainer"
 import Profile from "./Profile"
 import Result from "./Result"
 import { DetaClient } from "@/repository/deta"
 
-export default async function GuildDetail({
+export default async function Guild({
   params,
 }: {
   params: { guildId: string }

@@ -1,5 +1,5 @@
 import { Typography, Container } from "@mui/material"
-import FeatureSection from "@/components/Section/FeatureSection"
+import FeatureSection from "@/components/Section/Feature/FeatureSection"
 
 export default function Home() {
   return (

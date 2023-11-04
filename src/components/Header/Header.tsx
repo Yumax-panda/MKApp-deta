@@ -1,7 +1,7 @@
 import MenuIcon from "@mui/icons-material/Menu"
-import { Toolbar, Typography, AppBar, IconButton, Box } from "@mui/material"
-import AccountIcon from "../AccountIcon/AccountIcon"
-import ModeChangeIcon from "../ModeChangeIcon/ModeChangeIcon"
+import { Toolbar, AppBar, IconButton, Box } from "@mui/material"
+import AccountIcon from "./AccountIcon/AccountIcon"
+import ModeChangeIcon from "./ModeChangeIcon/ModeChangeIcon"
 import { drawerWidth } from "@/utils/style"
 
 interface Props {

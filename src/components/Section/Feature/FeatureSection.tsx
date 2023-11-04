@@ -1,5 +1,5 @@
 import { Grid } from "@mui/material"
-import FeaturePanel from "../Panel/FeaturePanel"
+import FeaturePanel from "../../Panel/FeaturePanel"
 import SectionWrapper from "../SectionWrapper/SectionWrapper"
 
 function FeatureSection() {
