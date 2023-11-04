@@ -33,16 +33,16 @@ npm install
 各自APIキーを用意して`.env`ファイルへ設定
 
 ```env
-NEXT_PUBLIC_DETA_PROJECT_KEY=""
-NEXT_PUBLIC_BOT_DB_PROJECT_KEY=""
-NEXT_PUBLIC_DISCORD_CLIENT_ID=""
-NEXT_PUBLIC_DISCORD_CLIENT_SECRET=""
+DETA_PROJECT_KEY=""
+BOT_DB_PROJECT_KEY=""
+DISCORD_CLIENT_ID=""
+DISCORD_CLIENT_SECRET=""
 
 NEXTAUTH_SECRET=""
 NEXTAUTH_URL="http://localhost:3000" // ローカルホストのURL
 ```
 
-`NEXT_PUBLIC_DETA_PROJECT_KEY`と`NEXT_PUBLIC_BOT_DB_PROJECT_KEY`は同じでも可能。
+`DETA_PROJECT_KEY`と`BOT_DB_PROJECT_KEY`は同じでも可能。
 deta.spaceでアカウントを作って作成。discord関連の環境変数は以下のドキュメントを参考のこと。
 
 [NextAuth.js Discord Documentation](https://next-auth.js.org/providers/discord)

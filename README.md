@@ -45,16 +45,16 @@ npm install
 Just create `.env` file on the root directory
 
 ```env
-NEXT_PUBLIC_DETA_PROJECT_KEY=""
-NEXT_PUBLIC_BOT_DB_PROJECT_KEY=""
-NEXT_PUBLIC_DISCORD_CLIENT_ID=""
-NEXT_PUBLIC_DISCORD_CLIENT_SECRET=""
+DETA_PROJECT_KEY=""
+BOT_DB_PROJECT_KEY=""
+DISCORD_CLIENT_ID=""
+DISCORD_CLIENT_SECRET=""
 
 NEXTAUTH_SECRET=""
 NEXTAUTH_URL="http://localhost:3000" // localhost
 ```
 
-`NEXT_PUBLIC_DETA_PROJECT_KEY` and `NEXT_PUBLIC_BOT_DB_PROJECT_KEY` can be the same value. Get API key after creating an account at deta.space. For discord-related environment variables, refer to the following document.
+`DETA_PROJECT_KEY` and `BOT_DB_PROJECT_KEY` can be the same value. Get API key after creating an account at deta.space. For discord-related environment variables, refer to the following document.
 
 [NextAuth.js Discord Documentation](https://next-auth.js.org/providers/discord)
 
