@@ -6,10 +6,9 @@ import { drawerWidth } from "@/utils/style"
 
 interface Props {
   handleDrawerToggle: () => void
-  title: string
 }
 
-function Header({ handleDrawerToggle, title }: Props) {
+function Header({ handleDrawerToggle }: Props) {
   return (
     <AppBar
       position="fixed"
@@ -28,14 +27,6 @@ function Header({ handleDrawerToggle, title }: Props) {
         >
           <MenuIcon />
         </IconButton>
-        <Typography
-          variant="h6"
-          noWrap
-          component="div"
-          sx={{ display: "block" }}
-        >
-          {title}
-        </Typography>
         <Box sx={{ flexGrow: 1 }} />
         <ModeChangeIcon />
         <AccountIcon />

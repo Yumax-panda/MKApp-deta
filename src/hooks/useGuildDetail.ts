@@ -1,8 +1,7 @@
-import { useState, useEffect, useContext } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import type { UseFormRegister } from "react-hook-form"
 import { toast } from "react-toastify"
-import CurrentGuildContext from "@/context/CurrentGuildContext"
 import type { GuildDetail } from "@/models/guildDetail"
 
 type FormValues = {
@@ -33,14 +32,12 @@ const fetchGuildDetail = async (
 
 export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
   const [detail, setDetail] = useState<GuildDetail | null>(null)
-  const { setGuild: setContextGuild } = useContext(CurrentGuildContext)
   const { register, handleSubmit, reset: defaultReset } = useForm<FormValues>()
 
   useEffect(() => {
     const _refresh = async () => {
       const data = await fetchGuildDetail(guildId)
       setDetail(data)
-      setContextGuild(data)
       defaultReset({ nickname: data?.nickname ?? "" })
     }
     _refresh()
@@ -50,7 +47,6 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
     await toast.promise(async () => {
       const data = await fetchGuildDetail(guildId)
       setDetail(data)
-      setContextGuild(data)
       defaultReset({ nickname: data?.nickname ?? "" })
     }, REFRESHING_MESSAGE)
   }
@@ -65,7 +61,6 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
         body: JSON.stringify(data),
       })
       const json = await res.json()
-      setContextGuild(json)
       setDetail(json)
       defaultReset({ nickname: json.nickname })
     }, REFRESHING_MESSAGE)
