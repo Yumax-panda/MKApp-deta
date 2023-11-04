@@ -22,7 +22,7 @@ export const useGuildProfile = (initial: GuildDetail) => {
     reset: defaultReset,
   } = useForm<FormValues>({
     defaultValues: {
-      nickname: initial.nickname,
+      nickname: detail.nickname,
     },
   })
 
