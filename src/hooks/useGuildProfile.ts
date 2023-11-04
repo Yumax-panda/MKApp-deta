@@ -22,33 +22,31 @@ export type UseGuildDetailReturn = {
   register: UseFormRegister<FormValues>
 }
 
-const fetchGuildDetail = async (
-  guildId: string,
-): Promise<GuildDetail | null> => {
+const fetchGuildDetail = async (guildId: string): Promise<GuildDetail> => {
   const res = await fetch(`/api/guilds/${guildId}/details`)
   const data = await res.json()
   return data
 }
 
-export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
-  const [detail, setDetail] = useState<GuildDetail | null>(null)
-  const { register, handleSubmit, reset: defaultReset } = useForm<FormValues>()
+export const useGuildProfile = (initial: GuildDetail) => {
+  const [detail, setDetail] = useState<GuildDetail>(initial)
 
-  useEffect(() => {
-    const _refresh = async () => {
-      const data = await fetchGuildDetail(guildId)
-      setDetail(data)
-      defaultReset({ nickname: data?.nickname ?? "" })
-    }
-    _refresh()
-  }, [guildId]) // eslint-disable-line react-hooks/exhaustive-deps
+  const {
+    register,
+    handleSubmit,
+    reset: defaultReset,
+  } = useForm<FormValues>({
+    defaultValues: {
+      nickname: initial.nickname,
+    },
+  })
 
-  const refresh = async () => {
-    await toast.promise(async () => {
-      const data = await fetchGuildDetail(guildId)
-      setDetail(data)
-      defaultReset({ nickname: data?.nickname ?? "" })
-    }, REFRESHING_MESSAGE)
+  const guildId = detail.id
+
+  const reset = () => {
+    defaultReset({
+      nickname: detail.nickname,
+    })
   }
 
   const update = handleSubmit(async (data) => {
@@ -66,11 +64,5 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
     }, REFRESHING_MESSAGE)
   })
 
-  const reset = () => {
-    defaultReset({
-      nickname: detail?.nickname ?? "",
-    })
-  }
-
-  return { detail, refresh, reset, update, register }
+  return { reset, update, register }
 }

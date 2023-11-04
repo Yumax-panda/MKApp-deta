@@ -6,7 +6,7 @@ import {
   Button as MuiButton,
   InputAdornment,
 } from "@mui/material"
-import { useState } from "react"
+import { useGuildProfile } from "@/hooks/useGuildProfile"
 import type { GuildDetail } from "@/models/guildDetail"
 
 type ButtonProps = {
@@ -37,16 +37,21 @@ type Props = {
 }
 
 export default function Profile({ detail }: Props) {
-  const [guildDetail, setGuildDetail] = useState(detail)
+  const { register, update } = useGuildProfile(detail)
 
   return (
-    <Box sx={{ mb: 4, mx: 2 }}>
+    <Box sx={{ mb: 4, mx: 2 }} component="form" onSubmit={update}>
       <TextField
-        value={guildDetail.name}
+        {...register("nickname")}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <Button variant="outlined" color="primary" label="save" />
+              <Button
+                variant="outlined"
+                color="primary"
+                label="save"
+                type="submit"
+              />
             </InputAdornment>
           ),
           style: { fontSize: 20 },
