@@ -2,8 +2,8 @@
 
 import { Grid, Stack, Typography } from "@mui/material"
 import type { TypographyProps } from "@mui/material"
-import Paper from "../Paper/Paper"
-import SectionContainer from "../SectionContainer/SectionContainer"
+import Paper from "@/components/Paper/Paper"
+import SectionContainer from "@/components/Section/SectionContainer/SectionContainer"
 import type { PlayerDetails } from "@/lib/lounge"
 
 type Props = {

@@ -2,8 +2,8 @@
 
 import { Grid, Stack, Typography, Avatar } from "@mui/material"
 import type { AdapterUser } from "next-auth/adapters"
-import Paper from "../Paper/Paper"
-import SectionContainer from "../SectionContainer/SectionContainer"
+import Paper from "@/components/Paper/Paper"
+import SectionContainer from "@/components/Section/SectionContainer/SectionContainer"
 
 type FieldProps = {
   label: string

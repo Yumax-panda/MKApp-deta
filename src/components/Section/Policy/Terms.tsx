@@ -1,4 +1,4 @@
-import { Section, List, TextField } from "./Section"
+import { Section, List, TextField } from "./PolicySection"
 
 function Terms() {
   return (
