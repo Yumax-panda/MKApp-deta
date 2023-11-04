@@ -2,7 +2,6 @@ import { CssBaseline } from "@mui/material"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import AuthProvider from "./AuthProvider"
-import CurrentGuildProvider from "./CurrentGuildProvider"
 import GoogleAnalytics from "./GoogleAnalytics"
 import LocalizationProvider from "./LocalizationProvider"
 import ThemeProvider from "./ThemeProvider"
@@ -26,21 +25,19 @@ export default function RootLayout({
     <ThemeProvider>
       <LocalizationProvider>
         <AuthProvider>
-          <CurrentGuildProvider>
-            <html lang="ja">
-              <head>
-                <GoogleAnalytics />
-              </head>
-              <CssBaseline />
-              <body className={inter.className} suppressHydrationWarning>
-                <ToastProvider>
-                  <Auth>
-                    <Template>{children}</Template>
-                  </Auth>
-                </ToastProvider>
-              </body>
-            </html>
-          </CurrentGuildProvider>
+          <html lang="ja">
+            <head>
+              <GoogleAnalytics />
+            </head>
+            <CssBaseline />
+            <body className={inter.className} suppressHydrationWarning>
+              <ToastProvider>
+                <Auth>
+                  <Template>{children}</Template>
+                </Auth>
+              </ToastProvider>
+            </body>
+          </html>
         </AuthProvider>
       </LocalizationProvider>
     </ThemeProvider>

@@ -4,7 +4,6 @@ import { Box, Drawer as MuiDrawer, Toolbar } from "@mui/material"
 import { useState } from "react"
 import Header from "../Header/Header"
 import DrawerItem from "./DrawerItem"
-import { useTitle } from "@/hooks/useTitle"
 import { drawerWidth } from "@/utils/style"
 
 interface Props {
@@ -14,7 +13,6 @@ interface Props {
 
 function Drawer({ window, children }: Props) {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const { title } = useTitle()
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen)
@@ -32,7 +30,7 @@ function Drawer({ window, children }: Props) {
         minHeight: "100vh",
       }}
     >
-      <Header handleDrawerToggle={handleDrawerToggle} title={title} />
+      <Header handleDrawerToggle={handleDrawerToggle} />
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
