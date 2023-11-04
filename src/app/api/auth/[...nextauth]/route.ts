@@ -10,8 +10,8 @@ export const authOptions: AuthOptions = {
   debug: process.env.NODE_ENV === "development",
   providers: [
     DiscordProvider({
-      clientId: process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID as string,
-      clientSecret: process.env.NEXT_PUBLIC_DISCORD_CLIENT_SECRET as string,
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
       authorization: {
         params: {
           scope: "identify email guilds",

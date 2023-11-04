@@ -27,8 +27,8 @@ export class DetaClient implements DetaClientType {
   linkedId: LinkedIdRepository
 
   constructor() {
-    const Authtoken = process.env.NEXT_PUBLIC_DETA_PROJECT_KEY
-    const BotDBToken = process.env.NEXT_PUBLIC_BOT_DB_PROJECT_KEY
+    const Authtoken = process.env.DETA_PROJECT_KEY
+    const BotDBToken = process.env.BOT_DB_PROJECT_KEY
     if (!(Authtoken && BotDBToken)) throw new Error("Project key is not found")
     const deta = Deta(Authtoken)
     const botDB = Deta(BotDBToken)
