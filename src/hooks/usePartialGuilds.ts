@@ -17,11 +17,7 @@ export const usePartialGuilds = (): UsePartialGuildsReturn => {
     const fetchGuilds = async () => {
       if (status === "loading") return
       if (!session?.user?.id) return
-      const res = await fetch(`/api/users/${session.user.id}/guilds`, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-        },
-      })
+      const res = await fetch(`/api/users/${session.user.id}/guilds`)
       const guilds = (await res.json()) as GuildPayload[]
       setGuilds(guilds.map((g) => ({ ...g, icon: url(g) })))
     }
@@ -33,9 +29,6 @@ export const usePartialGuilds = (): UsePartialGuildsReturn => {
     if (!session?.user?.id) return
     const res = await fetch(`/api/users/${session.user.id}/guilds`, {
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-      },
     })
     const guilds = (await res.json()) as GuildPayload[]
     setGuilds(guilds.map((g) => ({ ...g, icon: url(g) })))

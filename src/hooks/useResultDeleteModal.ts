@@ -22,19 +22,13 @@ export const useResultDeleteModal = ({
   onClose,
 }: Props): UseResultDeleteModalReturn => {
   const innerOnDelete = async () => {
-    const updates = await fetch(`/api/guilds/${guildId}/results`, {
-      headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-      },
-    }).then((res) => res.json() as Promise<Result[]>)
+    const updates = await fetch(`/api/guilds/${guildId}/results`).then(
+      (res) => res.json() as Promise<Result[]>,
+    )
     const selected = results[resultId]
     const newResults = updates.filter((r) => !isSame(r, selected))
     const res = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-      },
       body: JSON.stringify(newResults),
     })
     const newResults2 = (await res.json()) as Result[]

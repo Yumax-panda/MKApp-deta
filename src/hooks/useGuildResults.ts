@@ -12,11 +12,7 @@ export const useGuildResults = (guildId: string): UseGuildResultsReturn => {
 
   useEffect(() => {
     async function _fetch() {
-      const res = await fetch(`/api/guilds/${guildId}/results`, {
-        headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-        },
-      })
+      const res = await fetch(`/api/guilds/${guildId}/results`)
       const data = await res.json()
       setResults(data)
     }

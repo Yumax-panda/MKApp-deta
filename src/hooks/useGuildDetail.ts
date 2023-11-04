@@ -26,11 +26,7 @@ export type UseGuildDetailReturn = {
 const fetchGuildDetail = async (
   guildId: string,
 ): Promise<GuildDetail | null> => {
-  const res = await fetch(`/api/guilds/${guildId}/details`, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
-    },
-  })
+  const res = await fetch(`/api/guilds/${guildId}/details`)
   const data = await res.json()
   return data
 }
@@ -65,7 +61,6 @@ export const useGuildDetail = (guildId: string): UseGuildDetailReturn => {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET}`,
         },
         body: JSON.stringify(data),
       })
