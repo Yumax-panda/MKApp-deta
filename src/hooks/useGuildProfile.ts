@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useForm } from "react-hook-form"
-import type { UseFormRegister } from "react-hook-form"
 import { toast } from "react-toastify"
 import type { GuildDetail } from "@/models/guildDetail"
 
@@ -12,20 +11,6 @@ const REFRESHING_MESSAGE = {
   pending: "サーバー情報を更新しています...",
   success: "サーバー情報を更新しました",
   error: "サーバー情報の更新に失敗しました",
-}
-
-export type UseGuildDetailReturn = {
-  detail: GuildDetail | null
-  refresh: () => Promise<void>
-  update: () => Promise<void>
-  reset: () => void
-  register: UseFormRegister<FormValues>
-}
-
-const fetchGuildDetail = async (guildId: string): Promise<GuildDetail> => {
-  const res = await fetch(`/api/guilds/${guildId}/details`)
-  const data = await res.json()
-  return data
 }
 
 export const useGuildProfile = (initial: GuildDetail) => {
