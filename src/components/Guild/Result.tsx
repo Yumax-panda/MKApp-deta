@@ -14,7 +14,7 @@ import {
   GridActionsCellItem,
   jaJP,
 } from "@mui/x-data-grid"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { toast } from "react-toastify"
 import ResultAddModal from "../Modal/ResultAddModal/ResultAddModal"
 import ResultDeleteModal from "../Modal/ResultDeleteModal/ResultDeleteModal"
@@ -33,12 +33,21 @@ type Row = {
 }
 
 type Props = {
-  results: Result[]
   guildId: string
 }
 
-export default function Result({ results: initial, guildId }: Props) {
-  const [results, setResults] = useState<Result[]>(initial)
+export default function Result({ guildId }: Props) {
+  const [results, setResults] = useState<Result[]>([])
+
+  useEffect(() => {
+    const fetchResults = async () => {
+      const res = await fetch(`/api/guilds/${guildId}/results`)
+      const json = await res.json()
+      setResults(json ?? [])
+    }
+
+    fetchResults()
+  }, [guildId])
 
   const ResultTable = () => {
     const addModal = useModal()

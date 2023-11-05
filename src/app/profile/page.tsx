@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]/route"
-import LoungeSection from "@/components/Section/LoungeSection/LoungeSection"
+import LoungeSection from "@/components/Section/Lounge/LoungeSection"
 import UserProfileSection from "@/components/Section/UserProfile/UserProfileSection"
 import { getPlayer, getPlayerDetails } from "@/lib/lounge"
 import { DetaClient } from "@/repository/deta"
