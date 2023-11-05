@@ -9,7 +9,7 @@ function formatDate(date: string) {
   return dayjs(date).format("YYYY-MM-DD HH:mm:ss")
 }
 
-export async function createResult(prevState: any, formData: FormData) {
+export async function createResult(formData: FormData) {
   const parsed = CreateResultSchema.safeParse(formData)
   if (!parsed.success) {
     console.error("Invalid request body", parsed.error)
@@ -32,7 +32,10 @@ export async function createResult(prevState: any, formData: FormData) {
   return { message: "success" }
 }
 
-export async function updateResult(prevState: any, formData: FormData) {
+export async function updateResult(formData: FormData) {
+  console.log("formData", formData)
+  console.log("guildId", formData.get("guildId"))
+  console.log("date", formData.get("date"))
   const parsed = UpdateResultSchema.safeParse(formData)
   if (!parsed.success) {
     console.error("Invalid request body", parsed.error)
@@ -54,7 +57,7 @@ export async function updateResult(prevState: any, formData: FormData) {
   return { message: "success" }
 }
 
-export async function deleteResult(prevState: any, formData: FormData) {
+export async function deleteResult(formData: FormData) {
   const parsed = CreateResultSchema.safeParse(formData)
   if (!parsed.success) {
     console.error("Invalid request body", parsed.error)

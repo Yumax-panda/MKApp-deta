@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import type { GuildDetail } from "@/models/guildDetail"
@@ -13,9 +12,7 @@ const REFRESHING_MESSAGE = {
   error: "サーバー情報の更新に失敗しました",
 }
 
-export const useGuildProfile = (initial: GuildDetail) => {
-  const [detail, setDetail] = useState<GuildDetail>(initial)
-
+export const useGuildProfile = (detail: GuildDetail) => {
   const {
     register,
     handleSubmit,
@@ -26,8 +23,6 @@ export const useGuildProfile = (initial: GuildDetail) => {
     },
   })
 
-  const guildId = detail.id
-
   const reset = () => {
     defaultReset({
       nickname: detail.nickname,
@@ -36,16 +31,10 @@ export const useGuildProfile = (initial: GuildDetail) => {
 
   const update = handleSubmit(async (data) => {
     await toast.promise(async () => {
-      const res = await fetch(`/api/guilds/${guildId}/details`, {
+      await fetch(`/api/guilds/${detail.id}/details`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify(data),
       })
-      const json = await res.json()
-      setDetail(json)
-      defaultReset({ nickname: json.nickname })
     }, REFRESHING_MESSAGE)
   })
 

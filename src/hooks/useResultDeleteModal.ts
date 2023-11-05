@@ -22,11 +22,8 @@ export const useResultDeleteModal = ({
   onClose,
 }: Props): UseResultDeleteModalReturn => {
   const innerOnDelete = async () => {
-    const updates = await fetch(`/api/guilds/${guildId}/results`).then(
-      (res) => res.json() as Promise<Result[]>,
-    )
     const selected = results[resultId]
-    const newResults = updates.filter((r) => !isSame(r, selected))
+    const newResults = results.filter((r) => !isSame(r, selected))
     const res = await fetch(`/api/guilds/${guildId}/results`, {
       method: "PATCH",
       body: JSON.stringify(newResults),
