@@ -7,7 +7,6 @@ import {
   InputAdornment,
 } from "@mui/material"
 import { useGuildProfile } from "@/hooks/useGuildProfile"
-import type { GuildDetail } from "@/models/guildDetail"
 
 type ButtonProps = {
   variant: "contained" | "outlined"
@@ -33,13 +32,13 @@ const Button = ({ variant, color, label, onClick, type }: ButtonProps) => {
 }
 
 type Props = {
-  detail: GuildDetail
+  guildId: string
 }
 
-export default function Profile({ detail }: Props) {
-  const { register, update } = useGuildProfile(detail)
+export default function Profile({ guildId }: Props) {
+  const { register, update, detail } = useGuildProfile(guildId)
 
-  return (
+  return detail ? (
     <Box sx={{ mb: 4, mx: 2 }} component="form" onSubmit={update}>
       <TextField
         {...register("nickname")}
@@ -59,5 +58,5 @@ export default function Profile({ detail }: Props) {
         variant="standard"
       />
     </Box>
-  )
+  ) : null
 }

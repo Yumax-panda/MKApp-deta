@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 import type { GuildDetail } from "@/models/guildDetail"
@@ -13,26 +13,23 @@ const REFRESHING_MESSAGE = {
   error: "サーバー情報の更新に失敗しました",
 }
 
-export const useGuildProfile = (initial: GuildDetail) => {
-  const [detail, setDetail] = useState<GuildDetail>(initial)
+export const useGuildProfile = (guildId: string) => {
+  const [detail, setDetail] = useState<GuildDetail | null>(null)
 
-  const {
-    register,
-    handleSubmit,
-    reset: defaultReset,
-  } = useForm<FormValues>({
+  const { register, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {
-      nickname: detail.nickname,
+      nickname: detail?.nickname ?? "",
     },
   })
 
-  const guildId = detail.id
-
-  const reset = () => {
-    defaultReset({
-      nickname: detail.nickname,
-    })
-  }
+  useEffect(() => {
+    fetch(`/api/guilds/${guildId}/details`)
+      .then((res) => res.json() as Promise<GuildDetail | null>)
+      .then((detail) => {
+        setDetail(detail)
+        reset({ nickname: detail?.nickname ?? "" })
+      })
+  }, [guildId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const update = handleSubmit(async (data) => {
     await toast.promise(async () => {
@@ -42,12 +39,10 @@ export const useGuildProfile = (initial: GuildDetail) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
-      const json = await res.json()
-      setDetail(json)
-      defaultReset({ nickname: json.nickname })
+      }).then((res) => res.json() as Promise<GuildDetail | null>)
+      reset({ nickname: res?.nickname ?? "" })
     }, REFRESHING_MESSAGE)
   })
 
-  return { reset, update, register }
+  return { reset, update, register, detail }
 }
