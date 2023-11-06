@@ -1,5 +1,18 @@
-import { Logout, Policy } from "@mui/icons-material"
-import { Avatar, Menu, MenuItem, Divider, ListItemIcon } from "@mui/material"
+import {
+  Logout,
+  Policy,
+  Bookmark,
+  Leaderboard,
+  TrendingUp,
+} from "@mui/icons-material"
+import {
+  Avatar,
+  Menu,
+  MenuItem,
+  Divider,
+  ListItemIcon,
+  Typography,
+} from "@mui/material"
 import { useRouter } from "next/navigation"
 import type { AdapterUser } from "next-auth/adapters"
 import { signOut } from "next-auth/react"
@@ -27,6 +40,7 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
     >
+      <GroupLabel label="Application" />
       <MenuItem
         onClick={() => {
           router.push("/profile")
@@ -37,7 +51,6 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
         </ListItemIcon>
         Profile
       </MenuItem>
-      <Divider />
       <MenuItem
         onClick={() => {
           router.push("/policy")
@@ -58,8 +71,51 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
         </ListItemIcon>
         Logout
       </MenuItem>
+      <Divider />
+      <GroupLabel label="Lounge" />
+      <MenuItem
+        onClick={() => {
+          router.push("/stats")
+        }}
+      >
+        <ListItemIcon>
+          <TrendingUp fontSize="small" />
+        </ListItemIcon>
+        Stats
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          router.push("/bookmarks")
+        }}
+      >
+        <ListItemIcon>
+          <Leaderboard fontSize="small" />
+        </ListItemIcon>
+        Leaderboard
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          router.push("/policy")
+        }}
+      >
+        <ListItemIcon>
+          <Bookmark fontSize="small" />
+        </ListItemIcon>
+        Bookmarks
+      </MenuItem>
     </Menu>
   )
 }
+
+const GroupLabel = ({ label }: { label: string }) => (
+  <Typography
+    variant="caption"
+    color="textSecondary"
+    display="block"
+    sx={{ pl: 1 }}
+  >
+    {label}
+  </Typography>
+)
 
 export default AccountMenu
