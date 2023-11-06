@@ -85,17 +85,7 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          router.push("/bookmarks")
-        }}
-      >
-        <ListItemIcon>
-          <Leaderboard fontSize="small" />
-        </ListItemIcon>
-        Leaderboard
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          router.push("/policy")
+          router.push("/boookmarks")
         }}
       >
         <ListItemIcon>
