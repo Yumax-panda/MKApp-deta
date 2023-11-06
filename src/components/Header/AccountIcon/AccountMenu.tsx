@@ -16,7 +16,6 @@ import {
 import { useRouter } from "next/navigation"
 import type { AdapterUser } from "next-auth/adapters"
 import { signOut } from "next-auth/react"
-import React from "react"
 import type { MouseEvent } from "react"
 
 type Props = {
