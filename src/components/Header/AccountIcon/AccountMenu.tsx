@@ -39,6 +39,7 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       onClick={onClose}
       transformOrigin={{ horizontal: "right", vertical: "top" }}
       anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+      keepMounted
     >
       <GroupLabel label="Application" />
       <MenuItem
