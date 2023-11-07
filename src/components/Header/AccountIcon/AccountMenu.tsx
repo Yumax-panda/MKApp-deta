@@ -1,10 +1,4 @@
-import {
-  Logout,
-  Policy,
-  Bookmark,
-  Leaderboard,
-  TrendingUp,
-} from "@mui/icons-material"
+import { Logout, Policy, Bookmark, TrendingUp } from "@mui/icons-material"
 import {
   Avatar,
   Menu,
