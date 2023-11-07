@@ -31,7 +31,8 @@ type GetPlayerProps = {
 }
 
 type GetPlayerDetailsProps = {
-  name: string
+  name?: string
+  id?: string
   season?: number | null
 }
 
@@ -61,6 +62,9 @@ export async function getPlayer(
 export async function getPlayerDetails(
   params: GetPlayerDetailsProps,
 ): Promise<PlayerDetails | null> {
-  const url = `player/details?${toQueryString(params)}`
+  const { name, id } = params
+  if (!name && !id) return null
+  const query = id ? { id } : { name }
+  const url = `player/details?${toQueryString(query)}`
   return await get<PlayerDetails>(url)
 }
