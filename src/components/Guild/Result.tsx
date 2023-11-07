@@ -20,7 +20,7 @@ import ResultAddModal from "../Modal/ResultAddModal/ResultAddModal"
 import ResultDeleteModal from "../Modal/ResultDeleteModal/ResultDeleteModal"
 import ResultEditModal from "../Modal/ResultEditModal/ResultEditModal"
 import Paper from "../Paper/Paper"
-import WinLoseHistory from "../WinLoseHistory/WinLoseHistory"
+import WinLoseHistory from "./WinLoseHistory/WinLoseHistory"
 import { useModal } from "@/hooks/useModal"
 import type { Result } from "@/models/result"
 

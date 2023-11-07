@@ -45,7 +45,7 @@ const Field = ({ label, value }: FieldProps) => {
   )
 }
 
-function WinLoseHistoryDetail({ history }: Props) {
+function Detail({ history }: Props) {
   const win = history.filter(
     (result) => result.score > result.enemyScore,
   ).length
@@ -72,4 +72,4 @@ function WinLoseHistoryDetail({ history }: Props) {
   )
 }
 
-export default WinLoseHistoryDetail
+export default Detail
