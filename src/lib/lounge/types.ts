@@ -74,4 +74,4 @@ export type NameChange = {
   changedOn: string
 }
 
-export type Season = 4 | 5 | 6 | 7 | 8 | 9
+export type Season = 4 | 5 | 6 | 7 | 8 | 9 | 10
