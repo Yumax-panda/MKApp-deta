@@ -13,7 +13,7 @@ type Props = {
   history: Score[]
 }
 
-function WinLoseHistoryGraph({ history }: Props) {
+function Graph({ history }: Props) {
   const points = history.map((result) => {
     if (result.score > result.enemyScore) {
       return 1
@@ -57,4 +57,4 @@ function WinLoseHistoryGraph({ history }: Props) {
   )
 }
 
-export default WinLoseHistoryGraph
+export default Graph
