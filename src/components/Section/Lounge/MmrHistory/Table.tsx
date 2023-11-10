@@ -53,7 +53,7 @@ const columns: GridColDef<MmrChange>[] = [
     headerName: "Event",
   },
   {
-    field: "date",
+    field: "time",
     headerName: "Time",
     type: "dateTime",
     valueGetter: (params: GridValueGetterParams) =>
