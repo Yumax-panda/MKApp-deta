@@ -22,8 +22,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 import type { Player, PlayerDetails } from "./types"
-
-const baseUrl = "https://www.mk8dx-lounge.com/api"
+import { apiUrl } from "."
 
 type GetPlayerProps = {
   discordId: string
@@ -37,7 +36,7 @@ type GetPlayerDetailsProps = {
 }
 
 async function get<T>(path: string): Promise<T | null> {
-  const url = `${baseUrl}/${path}`
+  const url = `${apiUrl}/${path}`
   const res = await fetch(url, { next: { revalidate: 3600 } })
   if (!res.ok) return null
   return (await res.json()) as T
