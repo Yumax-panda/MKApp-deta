@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { authOptions } from "../api/auth/[...nextauth]/route"
+import Bookmark from "@/components/Section/Bookmark/Bookmark"
 import { DetaClient } from "@/repository/deta"
 
 async function getBookmarksByUserId(discordId: string) {
@@ -25,5 +26,5 @@ export default async function BookmarksPage() {
 
   const bookmarks = await getBookmarksByUserId(discordId)
 
-  return <>{JSON.stringify(bookmarks)}</>
+  return <Bookmark players={bookmarks} />
 }
