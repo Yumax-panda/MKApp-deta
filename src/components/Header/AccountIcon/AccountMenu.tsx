@@ -79,13 +79,13 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
       </MenuItem>
       <MenuItem
         onClick={() => {
-          router.push("/bookmarks")
+          router.push("/bookmark")
         }}
       >
         <ListItemIcon>
           <Bookmark fontSize="small" />
         </ListItemIcon>
-        Bookmarks
+        Bookmark
       </MenuItem>
     </Menu>
   )
