@@ -2,7 +2,7 @@ import type BaseClass from "deta/dist/types/base"
 import type DetaClass from "deta/dist/types/deta"
 import type { PlayerInfo } from "@/models/bookmark"
 
-type PinnedPlayer = {
+export type PinnedPlayer = {
   displayName: string
   playerId: number
 }
