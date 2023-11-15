@@ -1,5 +1,6 @@
 import { Deta } from "deta"
 import { AccountRepository } from "./account"
+import { BookmarkRepository } from "./bookmark"
 import { GuildRepository } from "./guild"
 import { GuildDetailRepository } from "./guildDetail"
 import { LinkedIdRepository } from "./linkedId"
@@ -11,6 +12,7 @@ export interface DetaClientType {
   user: UserRepository
   session: SessionRepository
   account: AccountRepository
+  bookmark: BookmarkRepository
   guild: GuildRepository
   guildDetail: GuildDetailRepository
   result: ResultRepository
@@ -21,6 +23,7 @@ export class DetaClient implements DetaClientType {
   user: UserRepository
   session: SessionRepository
   account: AccountRepository
+  bookmark: BookmarkRepository
   guild: GuildRepository
   guildDetail: GuildDetailRepository
   result: ResultRepository
@@ -35,6 +38,7 @@ export class DetaClient implements DetaClientType {
     this.user = new UserRepository(deta)
     this.session = new SessionRepository(deta)
     this.account = new AccountRepository(deta)
+    this.bookmark = new BookmarkRepository(botDB)
     this.guild = new GuildRepository(deta)
     this.guildDetail = new GuildDetailRepository(deta)
     this.result = new ResultRepository(botDB)
