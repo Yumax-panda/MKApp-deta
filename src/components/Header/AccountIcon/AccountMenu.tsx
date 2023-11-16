@@ -1,4 +1,4 @@
-import { Logout, Policy, Bookmark, TrendingUp } from "@mui/icons-material"
+import { Logout, Policy, TrendingUp } from "@mui/icons-material"
 import {
   Avatar,
   Menu,
@@ -76,16 +76,6 @@ function AccountMenu({ anchorEl, open, onClose, user }: Props) {
           <TrendingUp fontSize="small" />
         </ListItemIcon>
         Stats
-      </MenuItem>
-      <MenuItem
-        onClick={() => {
-          router.push("/bookmark")
-        }}
-      >
-        <ListItemIcon>
-          <Bookmark fontSize="small" />
-        </ListItemIcon>
-        Bookmark
       </MenuItem>
     </Menu>
   )
