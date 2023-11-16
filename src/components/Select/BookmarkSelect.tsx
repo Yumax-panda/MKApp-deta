@@ -23,11 +23,15 @@ function BookmarkSelect({ bookmarks }: Props) {
         onChange={(event) => {
           router.push(`/stats/${event.target.value}`)
         }}
-        value={initial?.playerId}
+        value={initial?.playerId.toString() ?? "missing"}
         fullWidth
+        labelId="bookmark-select-label"
       >
+        <MenuItem value="missing" disabled>
+          <em>Select a player</em>
+        </MenuItem>
         {bookmarks.map((player) => (
-          <MenuItem key={player.playerId} value={player.playerId}>
+          <MenuItem key={player.playerId} value={player.playerId.toString()}>
             {player.displayName}
           </MenuItem>
         ))}

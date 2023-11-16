@@ -1,4 +1,4 @@
-import { Stack } from "@mui/material"
+import { Stack, Grid } from "@mui/material"
 import LoungeProfile from "./LoungeProfile"
 import MmrHistoryTable from "./MmrHistory/Table"
 import SectionContainer from "@/components/Section/SectionContainer/SectionContainer"
@@ -17,7 +17,11 @@ function LoungeSection({ player, bookmarks }: Props) {
   return (
     <SectionContainer>
       <Stack spacing={2}>
-        <BookmarkSelect bookmarks={bookmarks} />
+        <Grid container>
+          <Grid item xs={12} md={3}>
+            <BookmarkSelect bookmarks={bookmarks} />
+          </Grid>
+        </Grid>
         <LoungeProfile player={player} />
         <MmrHistoryTable changes={mmrChanges} />
       </Stack>
